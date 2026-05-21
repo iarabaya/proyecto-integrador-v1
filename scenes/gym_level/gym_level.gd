@@ -6,6 +6,7 @@ const PlayerScene := preload("res://scenes/player/Player.tscn")
 
 @onready var floor_layer: TileMapLayer = $FloorLayer
 @onready var walls_layer: TileMapLayer = $WallsLayer
+@onready var _ui: CanvasLayer = $CommandUI
 
 var level_data: Dictionary
 var player_model: PlayerModel
@@ -38,6 +39,9 @@ func _ready() -> void:
 	add_child(player)
 	player.z_index = 4
 	player.setup(player_model)
+	
+	_ui.execute_requested.connect(run_program)
+	_ui.restart_requested.connect(restart_level)
 
 
 ## Called by the UI "Execute" button (Step 10). Runs the full command queue.
@@ -45,7 +49,9 @@ func run_program(moves: Array) -> void:
 	if _running:
 		return
 	_running = true
+	_ui.lock(true)
 	await ProgramExecutor.execute_program(moves, player, pickup_manager, _func1_queue)
+	_ui.lock(false)
 	_running = false
 
 
@@ -58,21 +64,19 @@ func restart_level() -> void:
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 	player.setup(player_model)
 
-# TEMPORAL — test con flechas. Se reemplaza en el paso del UI.
-var _moving := false
 
-func _process(_delta: float) -> void:
-	if _running:
-		return
-	if Input.is_action_just_pressed("ui_up"):    _test_step("up")
-	elif Input.is_action_just_pressed("ui_down"):  _test_step("down")
-	elif Input.is_action_just_pressed("ui_left"):  _test_step("left")
-	elif Input.is_action_just_pressed("ui_right"): _test_step("right")
-
-
-func _test_step(dir: String) -> void:
-	_running = true
-	await player.step(dir)
-	pickup_manager.check_pickup(player_model.tx, player_model.ty)
-	player.play_idle()
-	_running = false
+#func _process(_delta: float) -> void:
+	#if _running:
+		#return
+	#if Input.is_action_just_pressed("ui_up"):    _test_step("up")
+	#elif Input.is_action_just_pressed("ui_down"):  _test_step("down")
+	#elif Input.is_action_just_pressed("ui_left"):  _test_step("left")
+	#elif Input.is_action_just_pressed("ui_right"): _test_step("right")
+#
+#
+#func _test_step(dir: String) -> void:
+	#_running = true
+	#await player.step(dir)
+	#pickup_manager.check_pickup(player_model.tx, player_model.ty)
+	#player.play_idle()
+	#_running = false

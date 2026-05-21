@@ -1,4 +1,114 @@
-extends Node
+extends CanvasLayer
 
-$CommandUI.run_pressed.connect(func(moves): await ProgramExecutor.execute(moves, $Player))
-$CommandUI.restart_pressed.connect(_on_restart)
+const PIXEL_FONT = preload("res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf")
+
+signal execute_requested(moves: Array)
+signal restart_requested()
+
+const MAX_SLOTS := 5
+const CMD_LABEL: Dictionary = {
+	"up": "↑", "down": "↓", "left": "←", "right": "→", "jump": "○",
+	"jump_up": "↑○", "jump_down": "↓○", "jump_left": "←○", "jump_right": "→○",
+}
+
+var _queue: Array[String] = []
+var _slot_labels: Array[Label] = []
+
+@onready var _btn_up:      Button        = $Panel/Margin/VBox/TopRow/DPad/BtnUp
+@onready var _btn_down:    Button        = $Panel/Margin/VBox/TopRow/DPad/BtnDown
+@onready var _btn_left:    Button        = $Panel/Margin/VBox/TopRow/DPad/BtnLeft
+@onready var _btn_right:   Button        = $Panel/Margin/VBox/TopRow/DPad/BtnRight
+@onready var _btn_jump:    Button        = $Panel/Margin/VBox/TopRow/DPad/BtnJump
+@onready var _btn_execute: Button        = $Panel/Margin/VBox/BottomRow/BtnExecute
+@onready var _btn_clear:   Button        = $Panel/Margin/VBox/BottomRow/BtnClear
+@onready var _btn_restart: Button        = $Panel/Margin/VBox/BottomRow/BtnRestart
+@onready var _slots_hbox:  HBoxContainer = $Panel/Margin/VBox/TopRow/Queue/Slots
+@onready var _queue_label: Label         = $Panel/Margin/VBox/TopRow/Queue/QueueLabel
+
+
+func _ready() -> void:
+	# Style all buttons small
+	for btn in [_btn_up, _btn_down, _btn_left, _btn_right, _btn_jump]:
+		_make_small(btn, 8)
+	for btn in [_btn_execute, _btn_clear, _btn_restart]:
+		_make_small(btn, 7)
+	_queue_label.add_theme_font_size_override("font_size", 7)
+	_queue_label.add_theme_font_override("font", PIXEL_FONT) 
+
+	# Build slot panels in code
+	for i in MAX_SLOTS:
+		var slot := PanelContainer.new()
+		slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		# Compact stylebox so slot doesn't inflate
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.15, 0.15, 0.15)
+		sb.corner_radius_top_left    = 2
+		sb.corner_radius_top_right   = 2
+		sb.corner_radius_bottom_left = 2
+		sb.corner_radius_bottom_right = 2
+		sb.content_margin_top    = 2
+		sb.content_margin_bottom = 2
+		sb.content_margin_left   = 2
+		sb.content_margin_right  = 2
+		slot.add_theme_stylebox_override("panel", sb)
+
+		var lbl := Label.new()
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+		lbl.add_theme_font_size_override("font_size", 8)
+		lbl.add_theme_font_override("font", PIXEL_FONT)
+		lbl.text = str(i + 1)
+		slot.add_child(lbl)
+		_slots_hbox.add_child(slot)
+		_slot_labels.append(lbl)
+
+	_btn_up.pressed.connect(func(): _enqueue("up"))
+	_btn_down.pressed.connect(func(): _enqueue("down"))
+	_btn_left.pressed.connect(func(): _enqueue("left"))
+	_btn_right.pressed.connect(func(): _enqueue("right"))
+	_btn_jump.pressed.connect(func(): _enqueue("jump"))
+	_btn_execute.pressed.connect(_on_execute)
+	_btn_clear.pressed.connect(_on_clear)
+	_btn_restart.pressed.connect(func(): restart_requested.emit())
+
+
+func lock(locked: bool) -> void:
+	for btn in [_btn_up, _btn_down, _btn_left, _btn_right, _btn_jump, _btn_execute]:
+		btn.disabled = locked
+
+
+func _make_small(btn: Button, font_sz: int) -> void:
+	btn.add_theme_font_size_override("font_size", font_sz)
+	btn.add_theme_font_override("font", PIXEL_FONT) 
+	var states  := ["normal",              "hover",               "pressed",             "focus",               "disabled"]
+	var colors  := [Color(0.18,0.18,0.18), Color(0.30,0.30,0.30), Color(0.10,0.28,0.10), Color(0.18,0.18,0.18), Color(0.12,0.12,0.12)]
+	for i in states.size():
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = colors[i]
+		sb.corner_radius_top_left    = 2
+		sb.corner_radius_top_right   = 2
+		sb.corner_radius_bottom_left = 2
+		sb.corner_radius_bottom_right = 2
+		sb.content_margin_top    = 2
+		sb.content_margin_bottom = 2
+		sb.content_margin_left   = 4
+		sb.content_margin_right  = 4
+		btn.add_theme_stylebox_override(states[i], sb)
+
+
+func _enqueue(cmd: String) -> void:
+	if _queue.size() >= MAX_SLOTS: return
+	_queue.append(cmd)
+	_refresh_slots()
+
+func _on_execute() -> void:
+	if _queue.is_empty(): return
+	execute_requested.emit(_queue.duplicate())
+
+func _on_clear() -> void:
+	_queue.clear()
+	_refresh_slots()
+
+func _refresh_slots() -> void:
+	for i in MAX_SLOTS:
+		_slot_labels[i].text = CMD_LABEL.get(_queue[i], "?") if i < _queue.size() else str(i + 1)
