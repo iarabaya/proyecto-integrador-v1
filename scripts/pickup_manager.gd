@@ -149,3 +149,4 @@ func _play_collect(sprite: Sprite2D, float_tween: Tween) -> void:
 
 func _tile_center(tx: int, ty: int) -> Vector2:
 	return Vector2(tx * 16.0 + 8.0, ty * 16.0 + 8.0)
+	

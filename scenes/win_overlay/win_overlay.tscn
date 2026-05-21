@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bu304ovs2lqfh"]
+
+[ext_resource type="FontFile" uid="uid://dkitho2rt50ap" path="res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf" id="1_b66r8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b66r8"]
+bg_color = Color(0.74520826, 0.5516254, 0.42528862, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
+[node name="WinOverlay" type="CanvasLayer" unique_id=1863438383]
+layer = 10
+visible = false
+follow_viewport_enabled = true
+
+[node name="Background" type="ColorRect" parent="." unique_id=1712912324]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="VBox" type="VBoxContainer" parent="Background" unique_id=276453780]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="WinLabel" type="Label" parent="Background/VBox" unique_id=1224414093]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_b66r8")
+theme_override_font_sizes/font_size = 14
+text = "¡Completaste el nivel! 🎉"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnRestart" type="Button" parent="Background/VBox" unique_id=1490513893]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("1_b66r8")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_b66r8")
+text = "↺ Reiniciar"

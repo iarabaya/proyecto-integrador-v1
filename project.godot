@@ -13,16 +13,21 @@ config_version=5
 config/name="gatito-code"
 run/main_scene="uid://c1wx12rqefetl"
 config/features=PackedStringArray("4.6", "GL Compatibility")
+run/max_fps=240
 config/icon="res://icon.svg"
 
 [display]
 
 window/size/viewport_width=256
-window/size/viewport_height=192
+window/size/viewport_height=284
 window/size/window_width_override=768
-window/size/window_height_override=576
+window/size/window_height_override=816
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
 
 [physics]
 
