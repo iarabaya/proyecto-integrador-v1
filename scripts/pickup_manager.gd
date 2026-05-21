@@ -129,7 +129,7 @@ func _play_collect(sprite: Sprite2D, float_tween: Tween) -> void:
 	label.position = Vector2(sprite.position.x - 6.0, sprite.position.y - 25.0)
 	label.z_index = 10
 	var style := LabelSettings.new()
-	style.font = load("res://assets/pixelFont-7-8x14-sproutLands.ttf")
+	style.font = load("res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf")
 	style.font_size = 12
 	style.font_color = Color.YELLOW  # amarillo suave
 	style.outline_color = Color.BLACK

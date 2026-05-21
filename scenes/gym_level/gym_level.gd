@@ -15,7 +15,6 @@ var player_model: PlayerModel
 var player: Node2D
 var pickup_manager: PickupManager
 var _running := false       # true while a program or step is executing
-var _func1_queue: Array = []  # populated by the UI in Step 10
 
 
 func _ready() -> void:
