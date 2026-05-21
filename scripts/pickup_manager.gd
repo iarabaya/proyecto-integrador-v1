@@ -101,7 +101,7 @@ func _make_sprite(sheet_key: String, frame: int, pos: Vector2) -> Sprite2D:
 	atlas.atlas = texture
 	var cols: int = int(info["cols"])
 	var col: int = frame % cols
-	var row: int = frame / cols
+	var row := int(frame / float(cols))
 	atlas.region = Rect2(col * FRAME_SIZE, row * FRAME_SIZE, FRAME_SIZE, FRAME_SIZE)
 
 	sprite.texture = atlas
@@ -126,20 +126,21 @@ func _play_collect(sprite: Sprite2D, float_tween: Tween) -> void:
 	# "+1" floating label
 	var label := Label.new()
 	label.text = "+1"
-	label.position = Vector2(sprite.position.x - 6.0, sprite.position.y - 6.0)
+	label.position = Vector2(sprite.position.x - 6.0, sprite.position.y - 25.0)
 	label.z_index = 10
 	var style := LabelSettings.new()
-	style.font_size = 8
-	style.font_color = Color(1.0, 0.93, 0.53)   # amarillo suave
-	style.outline_color = Color(0.0, 0.0, 0.0)
-	style.outline_size = 2
+	style.font = load("res://assets/pixelFont-7-8x14-sproutLands.ttf")
+	style.font_size = 12
+	style.font_color = Color.YELLOW  # amarillo suave
+	style.outline_color = Color.BLACK
+	style.outline_size = 3
 	label.label_settings = style
 	add_child(label)
 
 	var ltween := label.create_tween().set_parallel(true)
-	ltween.tween_property(label, "position:y", label.position.y - 16.0, 0.5) \
+	ltween.tween_property(label, "position:y", label.position.y - 30.0, 2) \
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
-	ltween.tween_property(label, "modulate:a", 0.0, 0.5) \
+	ltween.tween_property(label, "modulate:a", 0.0, 1.5) \
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	ltween.chain().tween_callback(label.queue_free)
 
