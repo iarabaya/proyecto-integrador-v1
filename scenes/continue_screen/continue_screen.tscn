@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://dhslghghx0obq"]
+
+[ext_resource type="Script" uid="uid://bng45e5sex3uq" path="res://scenes/continue_screen/continue_screen.gd" id="1_h84ye"]
+[ext_resource type="FontFile" uid="uid://dkitho2rt50ap" path="res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf" id="1_neff4"]
+
+[node name="ContinueScreen" type="Control" unique_id=2003674938]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h84ye")
+
+[node name="Background" type="ColorRect" parent="." unique_id=367507725]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.26666668, 0.26666668, 0.4, 1)
+
+[node name="Center" type="CenterContainer" parent="Background" unique_id=1953464377]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Card" type="VBoxContainer" parent="Background/Center" unique_id=753892285]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Background/Center/Card" unique_id=629146353]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9749756, 0.359375, 1)
+theme_override_fonts/font = ExtResource("1_neff4")
+text = "GATITO CODE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Background/Center/Card" unique_id=1874556196]
+layout_mode = 2
+text = "Nivel 1 - Gimnasio"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sep" type="HSeparator" parent="Background/Center/Card" unique_id=1452403004]
+layout_mode = 2
+
+[node name="BtnContinue" type="Button" parent="Background/Center/Card" unique_id=1939094138]
+layout_mode = 2
+text = "▶ Continuar"
+
+[node name="BtnNewGame" type="Button" parent="Background/Center/Card" unique_id=258963053]
+layout_mode = 2
+text = "↺ Nueva partida"

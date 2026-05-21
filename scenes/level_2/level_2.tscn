@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cwa074ks24s6i"]
+
+[ext_resource type="TileSet" uid="uid://bn2ol4k56nhnw" path="res://tilesets/wold.tres" id="1_koqjd"]
+[ext_resource type="Script" uid="uid://dgsw5qg80fpht" path="res://scenes/level_2/level_2.gd" id="1_vqa4n"]
+[ext_resource type="PackedScene" uid="uid://j61t04tbn3iq" path="res://scenes/command_ui/command_ui.tscn" id="2_vqa4n"]
+[ext_resource type="PackedScene" uid="uid://bu304ovs2lqfh" path="res://scenes/win_overlay/win_overlay.tscn" id="3_t1d0w"]
+
+[node name="Level2" type="Node2D" unique_id=1824818877]
+script = ExtResource("1_vqa4n")
+
+[node name="FloorLayer" type="TileMapLayer" parent="." unique_id=1773185287]
+tile_set = ExtResource("1_koqjd")
+
+[node name="WallsLayer" type="TileMapLayer" parent="." unique_id=1947696561]
+z_index = 2
+tile_set = ExtResource("1_koqjd")
+
+[node name="CommandUI" parent="." unique_id=1687930181 instance=ExtResource("2_vqa4n")]
+
+[node name="WinOverlay" parent="." unique_id=1863438383 instance=ExtResource("3_t1d0w")]

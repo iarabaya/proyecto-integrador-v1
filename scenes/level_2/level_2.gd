@@ -1,4 +1,4 @@
-# GymLevel.gd
+# Level2.gd
 extends Node2D
 
 
@@ -15,14 +15,12 @@ var level_data: Dictionary
 var player_model: PlayerModel
 var player: Node2D
 var pickup_manager: PickupManager
-var _running := false       # true while a program or step is executing
+var _running := false
 
 
 func _ready() -> void:
-	# 1. Load tilemap
-	level_data = LevelLoader.load_gym(floor_layer, walls_layer)
+	level_data = LevelLoader.load_level("level2", floor_layer, walls_layer)  # ← changed
 
-	# 2. Player model (pure logic)
 	player_model = PlayerModel.new(
 		level_data["cols"],
 		level_data["rows"],
@@ -31,45 +29,41 @@ func _ready() -> void:
 		level_data["spawn"]["ty"]
 	)
 
-	# 3. Pickup manager — spawns all objects from the JSON
 	pickup_manager = PickupManager.new()
 	add_child(pickup_manager)
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 
-	# 4. Player sprite
 	player = PlayerScene.instantiate()
 	add_child(player)
 	player.z_index = 4
 	player.setup(player_model)
-	
+
 	_ui.execute_requested.connect(run_program)
 	_ui.restart_requested.connect(restart_level)
 	_win_restart_btn.pressed.connect(restart_level)
 	_win_next_btn.pressed.connect(_on_next_level)
 
 
-## Called by the UI "Execute" button (Step 10). Runs the full command queue.
 func run_program(moves: Array) -> void:
 	if _running: return
 	_running = true
 	_ui.lock(true)
-	
+
 	await ProgramExecutor.execute_program(moves, player, pickup_manager)
-	
+
 	if pickup_manager.get_remaining() == 0:
-		SaveSystem.complete_level("gym")
+		SaveSystem.complete_level("level2")  # ← changed
 		_win_overlay.visible = true
 	else:
 		_ui.lock(false)
-	
+
 	_running = false
 
 
-## Resets player and pickups back to spawn state.
 func restart_level() -> void:
 	_win_overlay.visible = false
 	_ui.lock(false)
-	
+
 	if _running:
 		return
 	player_model.reset()
@@ -79,4 +73,4 @@ func restart_level() -> void:
 
 func _on_next_level() -> void:
 	var next := SaveSystem.get_continue_level()
-	get_tree().change_scene_to_file.call_deferred(next["scene"])
+	get_tree().change_scene_to_file.call_deferred(next["scene"])  # ← same, routes to level3

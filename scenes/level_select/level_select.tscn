@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://shonkkvgxnwd"]
+
+[ext_resource type="Script" uid="uid://hxfd3ovnotnm" path="res://scenes/level_select/level_select.gd" id="1_4ek2u"]
+[ext_resource type="FontFile" uid="uid://dkitho2rt50ap" path="res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf" id="1_t5gxd"]
+
+[node name="LevelSelect" type="Control" unique_id=1090821814]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ek2u")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1289292721]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.26666668, 0.26666668, 0.4, 1)
+
+[node name="Margin" type="MarginContainer" parent="Background" unique_id=1393866801]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Background/Margin" unique_id=1660774015]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Header" type="Label" parent="Background/Margin/VBox" unique_id=1284485452]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_t5gxd")
+text = "Seleccionar Nivel"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="Background/Margin/VBox" unique_id=1916154267]
+layout_mode = 2
+columns = 2

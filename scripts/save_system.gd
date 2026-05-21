@@ -4,9 +4,9 @@ const SAVE_PATH = "user://save.json"
 
 # Level order — add all 16 here eventually, in sequence
 const LEVELS: Array[Dictionary] = [
-	{ "key": "gym",    "title": "Nivel 1 — Gimnasio", "scene": "res://scenes/gym_level/gym_level.tscn" },
-	{ "key": "main",   "title": "Nivel 2 — Campo",    "scene": "res://scenes/main_level/main_level.tscn" },
-	{ "key": "level3", "title": "Nivel 3 — Huerto",   "scene": "res://scenes/level3/level3.tscn" },
+	{ "key": "gym",    "title": "Nivel 1 - Gimnasio", "scene": "res://scenes/gym_level/gym_level.tscn" },
+	{ "key": "level2",   "title": "Nivel 2 - Campo",    "scene": "res://scenes/level_2/level_2.tscn" },
+	{ "key": "level3", "title": "Nivel 3 - Huerto",   "scene": "res://scenes/level_3/level_3.tscn" },
 ]
 
 var _completed: Array[String] = []
