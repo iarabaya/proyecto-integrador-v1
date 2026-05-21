@@ -7,6 +7,8 @@ const PlayerScene := preload("res://scenes/player/Player.tscn")
 @onready var floor_layer: TileMapLayer = $FloorLayer
 @onready var walls_layer: TileMapLayer = $WallsLayer
 @onready var _ui: CanvasLayer = $CommandUI
+@onready var _win_overlay: CanvasLayer = $WinOverlay
+@onready var _win_restart_btn: Button = $WinOverlay/Background/VBox/BtnRestart
 
 var level_data: Dictionary
 var player_model: PlayerModel
@@ -42,21 +44,30 @@ func _ready() -> void:
 	
 	_ui.execute_requested.connect(run_program)
 	_ui.restart_requested.connect(restart_level)
+	_win_restart_btn.pressed.connect(restart_level)
 
 
 ## Called by the UI "Execute" button (Step 10). Runs the full command queue.
 func run_program(moves: Array) -> void:
-	if _running:
-		return
+	if _running: return
 	_running = true
 	_ui.lock(true)
-	await ProgramExecutor.execute_program(moves, player, pickup_manager, _func1_queue)
-	_ui.lock(false)
+	
+	await ProgramExecutor.execute_program(moves, player, pickup_manager)
+	
+	if pickup_manager.get_remaining() == 0:
+		_win_overlay.visible = true
+	else:
+		_ui.lock(false)
+	
 	_running = false
 
 
 ## Resets player and pickups back to spawn state.
 func restart_level() -> void:
+	_win_overlay.visible = false
+	_ui.lock(false)
+	
 	if _running:
 		return
 	player_model.reset()
