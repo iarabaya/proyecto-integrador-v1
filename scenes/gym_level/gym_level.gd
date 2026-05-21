@@ -10,13 +10,14 @@ const PlayerScene := preload("res://scenes/player/Player.tscn")
 var level_data: Dictionary
 var player_model: PlayerModel
 var player: Node2D
+var pickup_manager: PickupManager
 
 
 func _ready() -> void:
 	# 1. Load tilemap
 	level_data = LevelLoader.load_gym(floor_layer, walls_layer)
 
-	# 2. Create player model (pure logic)
+	# 2. Player model (pure logic)
 	player_model = PlayerModel.new(
 		level_data["cols"],
 		level_data["rows"],
@@ -25,15 +26,19 @@ func _ready() -> void:
 		level_data["spawn"]["ty"]
 	)
 
-	# 3. Spawn player sprite
+	# 3. Pickup manager — spawns all objects from the JSON
+	pickup_manager = PickupManager.new()
+	add_child(pickup_manager)
+	pickup_manager.setup(level_data["objects"], level_data["solid"])
+
+	# 4. Player sprite
 	player = PlayerScene.instantiate()
 	add_child(player)
 	player.z_index = 4
 	player.setup(player_model)
 
-	print("Jugador en: tx=%d ty=%d" % [player_model.tx, player_model.ty])
 
-# TEMPORAL — test de movimiento con flechas. Se borrará en el paso del UI.
+# TEMPORAL — test con flechas. Se reemplaza en el paso del UI.
 var _moving := false
 
 func _process(_delta: float) -> void:
@@ -52,5 +57,6 @@ func _process(_delta: float) -> void:
 func _test_step(dir: String) -> void:
 	_moving = true
 	await player.step(dir)
+	pickup_manager.check_pickup(player_model.tx, player_model.ty)
 	player.play_idle()
 	_moving = false
