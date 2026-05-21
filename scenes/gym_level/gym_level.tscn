@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c1wx12rqefetl"]
+
+[ext_resource type="Script" uid="uid://csbx5sx4uyxjo" path="res://scenes/gym_level/gym_level.gd" id="1_iii8n"]
+[ext_resource type="TileSet" uid="uid://bn2ol4k56nhnw" path="res://tilesets/wold.tres" id="1_ose68"]
+
+[node name="GymLevel" type="Node2D" unique_id=413886950]
+script = ExtResource("1_iii8n")
+
+[node name="FloorLayer" type="TileMapLayer" parent="." unique_id=1910115433]
+tile_set = ExtResource("1_ose68")
+
+[node name="WallsLayer" type="TileMapLayer" parent="." unique_id=1808827809]
+z_index = 2
+tile_set = ExtResource("1_ose68")
