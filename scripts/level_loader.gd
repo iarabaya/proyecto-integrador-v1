@@ -16,13 +16,16 @@ static func load_gym(floor_layer: TileMapLayer, walls_layer: TileMapLayer) -> Di
 	_fill_layer(floor_layer, data["layers"]["floor"], cols)
 	_fill_layer(walls_layer, data["layers"]["walls"], cols)
 
-	# Build solid[y][x] — true means the tile blocks movement
+	# Build solid[y][x] — true means the tile blocks movement.
+	# A cell is solid if it has a wall tile OR if the floor tile is water (GIDs 400-499).
 	var solid: Array = []
 	for y in rows:
 		var row: Array = []
 		for x in cols:
-			var gid: int = int(data["layers"]["walls"][y * cols + x])
-			row.append(gid != 0)
+			var wall_gid  := int(data["layers"]["walls"][y * cols + x])
+			var floor_gid := int(data["layers"]["floor"][y * cols + x])
+			var is_water  := floor_gid >= 400 and floor_gid <= 499
+			row.append(wall_gid != 0 or is_water)
 		solid.append(row)
 
 	return {
@@ -43,7 +46,7 @@ static func _fill_layer(layer: TileMapLayer, gids: Array, cols: int) -> void:
 		if cell.is_empty():
 			continue
 		var tile_x := i % cols
-		var tile_y := i / cols
+		var tile_y := int(i / float(cols))
 		layer.set_cell(
 			Vector2i(tile_x, tile_y),
 			cell["source_id"],
