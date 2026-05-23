@@ -1,21 +1,8 @@
 [gd_scene format=3 uid="uid://bu304ovs2lqfh"]
 
 [ext_resource type="FontFile" uid="uid://dkitho2rt50ap" path="res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf" id="1_b66r8"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b66r8"]
-bg_color = Color(0.74520826, 0.5516254, 0.42528862, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 4.0
-expand_margin_top = 2.0
-expand_margin_right = 4.0
-expand_margin_bottom = 2.0
+[ext_resource type="StyleBox" uid="uid://buebtntmqbc74" path="res://scenes/level_select/win_button.tres" id="2_nxvwg"]
+[ext_resource type="StyleBox" uid="uid://kxe6w37gyw7f" path="res://scenes/level_select/win_button_hover.tres" id="2_r3voq"]
 
 [node name="WinOverlay" type="CanvasLayer" unique_id=1863438383]
 layer = 10
@@ -37,6 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="WinLabel" type="Label" parent="Background/VBox" unique_id=1224414093]
@@ -51,7 +39,20 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("1_b66r8")
 theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_b66r8")
+theme_override_styles/normal = ExtResource("2_nxvwg")
+theme_override_styles/hover = ExtResource("2_r3voq")
 text = "↺ Reiniciar"
+
+[node name="BtnNext" type="Button" parent="Background/VBox" unique_id=806332681]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("1_b66r8")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = ExtResource("2_nxvwg")
+theme_override_styles/hover = ExtResource("2_r3voq")
+text = "▶ Siguiente nivel"

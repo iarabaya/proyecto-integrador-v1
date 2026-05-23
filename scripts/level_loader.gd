@@ -4,20 +4,16 @@
 class_name LevelLoader
 
 
-static func load_gym(floor_layer: TileMapLayer, walls_layer: TileMapLayer) -> Dictionary:
-	# Read and parse the JSON file
-	var text := FileAccess.get_file_as_string("res://levels/gym.json")
+static func load_level(key: String, floor_layer: TileMapLayer, walls_layer: TileMapLayer) -> Dictionary:
+	var text := FileAccess.get_file_as_string("res://levels/" + key + ".json")
 	var data: Dictionary = JSON.parse_string(text)
 
-	var cols: int = data["cols"]   # 16
-	var rows: int = data["rows"]   # 12
+	var cols: int = data["cols"]
+	var rows: int = data["rows"]
 
-	# Fill both tile layers
 	_fill_layer(floor_layer, data["layers"]["floor"], cols)
 	_fill_layer(walls_layer, data["layers"]["walls"], cols)
 
-	# Build solid[y][x] — true means the tile blocks movement.
-	# A cell is solid if it has a wall tile OR if the floor tile is water (GIDs 400-499).
 	var solid: Array = []
 	for y in rows:
 		var row: Array = []
@@ -32,9 +28,14 @@ static func load_gym(floor_layer: TileMapLayer, walls_layer: TileMapLayer) -> Di
 		"cols": cols,
 		"rows": rows,
 		"solid": solid,
-		"spawn": data["spawn"],       # {tx, ty}
-		"objects": data["objects"],   # array of {tx, ty, key, frame, type}
+		"spawn": data["spawn"],
+		"objects": data["objects"],
 	}
+
+
+# Kept for backward compatibility — gym_level.gd can keep calling this
+static func load_gym(floor_layer: TileMapLayer, walls_layer: TileMapLayer) -> Dictionary:
+	return load_level("gym", floor_layer, walls_layer)
 
 
 static func _fill_layer(layer: TileMapLayer, gids: Array, cols: int) -> void:

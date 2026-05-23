@@ -24,13 +24,14 @@ var _slot_labels: Array[Label] = []
 @onready var _btn_restart: Button        = $Panel/Margin/VBox/BottomRow/BtnRestart
 @onready var _slots_hbox:  HBoxContainer = $Panel/Margin/VBox/TopRow/Queue/Slots
 @onready var _queue_label: Label         = $Panel/Margin/VBox/TopRow/Queue/QueueLabel
+@onready var _btn_levels: Button = $Panel/Margin/VBox/BottomRow/BtnLevels
 
 
 func _ready() -> void:
 	# Style all buttons small
 	for btn in [_btn_up, _btn_down, _btn_left, _btn_right, _btn_jump]:
 		_make_small(btn, 8)
-	for btn in [_btn_execute, _btn_clear, _btn_restart]:
+	for btn in [_btn_execute, _btn_clear, _btn_restart, _btn_levels]:
 		_make_small(btn, 7)
 	_queue_label.add_theme_font_size_override("font_size", 7)
 	_queue_label.add_theme_font_override("font", PIXEL_FONT) 
@@ -70,6 +71,7 @@ func _ready() -> void:
 	_btn_execute.pressed.connect(_on_execute)
 	_btn_clear.pressed.connect(_on_clear)
 	_btn_restart.pressed.connect(func(): restart_requested.emit())
+	_btn_levels.pressed.connect(func(): get_tree().change_scene_to_file.call_deferred("res://scenes/level_select/level_select.tscn"))
 
 
 func lock(locked: bool) -> void:
