@@ -25,6 +25,10 @@ func _ready() -> void:
 	_btn_continue.pressed.connect(_on_continue)
 	_btn_new_game.pressed.connect(_on_new_game)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):  # ESC key
+		get_tree().change_scene_to_file.call_deferred("res://scenes/main_menu/main_menu.tscn")
+
 func _on_continue() -> void:
 	var lvl := SaveSystem.get_continue_level()
 	get_tree().change_scene_to_file(lvl["scene"])

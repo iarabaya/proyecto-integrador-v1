@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="gatito-code"
-run/main_scene="uid://cd4bs0ghuywnq"
+run/main_scene="uid://cwe8h87xchg5p"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 run/max_fps=240
 config/icon="res://icon.svg"

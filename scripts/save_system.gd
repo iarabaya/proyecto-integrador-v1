@@ -1,3 +1,4 @@
+# save_system.gd
 extends Node
 
 const SAVE_PATH = "user://save.json"
