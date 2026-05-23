@@ -72,7 +72,7 @@ func _build_card(lvl: Dictionary) -> void:
 		btn.anchor_bottom = 1.0
 		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		panel.add_child(btn)
-		btn.pressed.connect(func(): _launch(lvl["scene"]))
+		btn.pressed.connect(func(): _launch(lvl["key"]))
 
-func _launch(scene_path: String) -> void:
-	get_tree().change_scene_to_file.call_deferred(scene_path)
+func _launch(key: String) -> void:
+	SaveSystem.launch_level(key)

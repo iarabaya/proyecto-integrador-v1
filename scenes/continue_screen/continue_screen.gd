@@ -31,13 +31,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_continue() -> void:
 	var lvl := SaveSystem.get_continue_level()
-	get_tree().change_scene_to_file(lvl["scene"])
+	SaveSystem.launch_level(lvl["key"])
 
 func _on_new_game() -> void:
 	SaveSystem.reset()
-	get_tree().change_scene_to_file(
-		SaveSystem.LEVELS[0]["scene"]
-	)
+	SaveSystem.launch_level(SaveSystem.LEVELS[0]["key"])
 
 func _style_button(btn: Button) -> void:
 	var states  := ["normal", "hover", "pressed", "focus", "disabled"]

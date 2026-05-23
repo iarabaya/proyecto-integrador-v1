@@ -37,7 +37,7 @@ func _on_jugar() -> void:
 	if SaveSystem.has_save():
 		get_tree().change_scene_to_file.call_deferred("res://scenes/continue_screen/continue_screen.tscn")
 	else:
-		get_tree().change_scene_to_file.call_deferred(SaveSystem.LEVELS[0]["scene"])
+		SaveSystem.launch_level("gym")
 
 func _on_niveles() -> void:
 	get_tree().change_scene_to_file.call_deferred("res://scenes/level_select/level_select.tscn")

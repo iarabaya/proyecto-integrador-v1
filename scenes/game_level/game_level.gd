@@ -1,25 +1,25 @@
-# Level2.gd
 extends Node2D
-
 
 const PlayerScene := preload("res://scenes/player/Player.tscn")
 
-@onready var floor_layer: TileMapLayer = $FloorLayer
-@onready var walls_layer: TileMapLayer = $WallsLayer
-@onready var _ui: CanvasLayer = $CommandUI
-@onready var _win_overlay: CanvasLayer = $WinOverlay
-@onready var _win_restart_btn: Button = $WinOverlay/Background/VBox/BtnRestart
-@onready var _win_next_btn: Button = $WinOverlay/Background/VBox/BtnNext
+@onready var floor_layer:      TileMapLayer = $FloorLayer
+@onready var walls_layer:      TileMapLayer = $WallsLayer
+@onready var _ui:              CanvasLayer  = $CommandUI
+@onready var _win_overlay:     CanvasLayer  = $WinOverlay
+@onready var _win_restart_btn: Button       = $WinOverlay/Background/VBox/BtnRestart
+@onready var _win_next_btn:    Button       = $WinOverlay/Background/VBox/BtnNext
 
+var _level_key: String
 var level_data: Dictionary
 var player_model: PlayerModel
 var player: Node2D
 var pickup_manager: PickupManager
 var _running := false
 
-
 func _ready() -> void:
-	level_data = LevelLoader.load_level("level2", floor_layer, walls_layer)  # ← changed
+	_level_key = SaveSystem.current_level_key
+
+	level_data = LevelLoader.load_level(_level_key, floor_layer, walls_layer)
 
 	player_model = PlayerModel.new(
 		level_data["cols"],
@@ -43,7 +43,6 @@ func _ready() -> void:
 	_win_restart_btn.pressed.connect(restart_level)
 	_win_next_btn.pressed.connect(_on_next_level)
 
-
 func run_program(moves: Array) -> void:
 	if _running: return
 	_running = true
@@ -52,20 +51,17 @@ func run_program(moves: Array) -> void:
 	await ProgramExecutor.execute_program(moves, player, pickup_manager)
 
 	if pickup_manager.get_remaining() == 0:
-		SaveSystem.complete_level("level2")  # ← changed
+		SaveSystem.complete_level(_level_key)
 		_win_overlay.visible = true
 	else:
 		_ui.lock(false)
 
 	_running = false
 
-
 func restart_level() -> void:
 	_win_overlay.visible = false
 	_ui.lock(false)
-
-	if _running:
-		return
+	if _running: return
 	player_model.reset()
 	pickup_manager.reset()
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
@@ -73,4 +69,9 @@ func restart_level() -> void:
 
 func _on_next_level() -> void:
 	var next := SaveSystem.get_continue_level()
-	get_tree().change_scene_to_file.call_deferred(next["scene"])  # ← same, routes to level3
+	if next.is_empty(): return
+	SaveSystem.launch_level(next["key"])
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().change_scene_to_file.call_deferred("res://scenes/level_select/level_select.tscn")
