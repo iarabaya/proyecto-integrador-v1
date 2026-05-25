@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://j61t04tbn3iq"]
 
 [ext_resource type="Script" uid="uid://bo0hm4ql2cbo6" path="res://scenes/command_ui/command_ui.gd" id="1_hbfb6"]
-[ext_resource type="StyleBox" uid="uid://rwoxs1u3vww0" path="res://boton.tres" id="2_7ylux"]
 
 [node name="CommandUI" type="CanvasLayer" unique_id=1687930181]
 layer = 10
@@ -9,10 +8,16 @@ follow_viewport_enabled = true
 script = ExtResource("1_hbfb6")
 
 [node name="Panel" type="Panel" parent="." unique_id=261914153]
-offset_left = 3.0
-offset_top = 200.0
-offset_right = 253.0
-offset_bottom = 280.0
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -99.0
+offset_right = -5.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
 
 [node name="Margin" type="MarginContainer" parent="Panel" unique_id=1922213687]
 layout_mode = 1
@@ -50,7 +55,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_7ylux")
 text = "↑"
 
 [node name="Sp2" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=932562135]
@@ -61,21 +65,18 @@ layout_mode = 2
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_7ylux")
 text = "←"
 
 [node name="BtnJump" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=870919966]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_7ylux")
 text = "○"
 
 [node name="BtnRight" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=211985155]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_7ylux")
 text = "→"
 
 [node name="Sp3" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=963540460]
@@ -86,7 +87,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_7ylux")
 text = "↓"
 
 [node name="Sp4" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=344564087]

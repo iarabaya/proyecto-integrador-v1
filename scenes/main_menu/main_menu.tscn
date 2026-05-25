@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://cwe8h87xchg5p"]
 
 [ext_resource type="Script" uid="uid://ba8hif3om61yt" path="res://scenes/main_menu/main_menu.gd" id="1_fsom3"]
+[ext_resource type="StyleBox" uid="uid://daf3doa5ywsg6" path="res://theme/basic-button.tres" id="2_0ebjn"]
+[ext_resource type="Theme" uid="uid://c4koxfd11wnyg" path="res://theme/general-ui.tres" id="2_ob46e"]
 
 [node name="MainMenu" type="Control" unique_id=977152885]
 layout_mode = 3
@@ -18,45 +20,52 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.26666668, 0.26666668, 0.4, 1)
+color = Color(0.46400005, 0.7776, 0.8, 1)
 
 [node name="Center" type="CenterContainer" parent="BG" unique_id=1249896352]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_ob46e")
 
-[node name="Card" type="VBoxContainer" parent="BG/Center" unique_id=1325859312]
+[node name="Panel" type="PanelContainer" parent="BG/Center" unique_id=852625807]
+layout_mode = 2
+
+[node name="Card" type="VBoxContainer" parent="BG/Center/Panel" unique_id=1325859312]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="BG/Center/Card" unique_id=1047383224]
+[node name="Title" type="Label" parent="BG/Center/Panel/Card" unique_id=1047383224]
 layout_mode = 2
 text = "GATITO CODE"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="BG/Center/Card" unique_id=239269062]
+[node name="Subtitle" type="Label" parent="BG/Center/Panel/Card" unique_id=239269062]
 layout_mode = 2
 text = "aprende a programar"
 
-[node name="Spacer" type="Control" parent="BG/Center/Card" unique_id=605542544]
+[node name="Spacer" type="Control" parent="BG/Center/Panel/Card" unique_id=605542544]
 layout_mode = 2
 
-[node name="BtnPlay" type="Button" parent="BG/Center/Card" unique_id=1765646788]
+[node name="BtnPlay" type="Button" parent="BG/Center/Panel/Card" unique_id=1765646788]
 layout_mode = 2
 text = "▶  Jugar"
 
-[node name="BtnLevels" type="Button" parent="BG/Center/Card" unique_id=1890575743]
+[node name="BtnLevels" type="Button" parent="BG/Center/Panel/Card" unique_id=1890575743]
 layout_mode = 2
 text = "☰  Niveles"
 
-[node name="BtnSettings" type="Button" parent="BG/Center/Card" unique_id=1473151501]
+[node name="BtnSettings" type="Button" parent="BG/Center/Panel/Card" unique_id=1473151501]
 layout_mode = 2
+theme_override_styles/normal = ExtResource("2_0ebjn")
 text = "⚙  Configuración"
 
-[node name="BtnCredits" type="Button" parent="BG/Center/Card" unique_id=82749372]
+[node name="BtnCredits" type="Button" parent="BG/Center/Panel/Card" unique_id=82749372]
 layout_mode = 2
 text = "✦  Créditos"

@@ -28,36 +28,14 @@ var _slot_labels: Array[Label] = []
 
 
 func _ready() -> void:
-	# Style all buttons small
-	for btn in [_btn_up, _btn_down, _btn_left, _btn_right, _btn_jump]:
-		_make_small(btn, 8)
-	for btn in [_btn_execute, _btn_clear, _btn_restart, _btn_levels]:
-		_make_small(btn, 7)
-	_queue_label.add_theme_font_size_override("font_size", 7)
-	_queue_label.add_theme_font_override("font", PIXEL_FONT) 
-
 	# Build slot panels in code
 	for i in MAX_SLOTS:
 		var slot := PanelContainer.new()
 		slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		# Compact stylebox so slot doesn't inflate
-		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(0.15, 0.15, 0.15)
-		sb.corner_radius_top_left    = 2
-		sb.corner_radius_top_right   = 2
-		sb.corner_radius_bottom_left = 2
-		sb.corner_radius_bottom_right = 2
-		sb.content_margin_top    = 2
-		sb.content_margin_bottom = 2
-		sb.content_margin_left   = 2
-		sb.content_margin_right  = 2
-		slot.add_theme_stylebox_override("panel", sb)
 
 		var lbl := Label.new()
 		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		lbl.add_theme_font_size_override("font_size", 8)
-		lbl.add_theme_font_override("font", PIXEL_FONT)
 		lbl.text = str(i + 1)
 		slot.add_child(lbl)
 		_slots_hbox.add_child(slot)
@@ -77,26 +55,6 @@ func _ready() -> void:
 func lock(locked: bool) -> void:
 	for btn in [_btn_up, _btn_down, _btn_left, _btn_right, _btn_jump, _btn_execute]:
 		btn.disabled = locked
-
-
-func _make_small(btn: Button, font_sz: int) -> void:
-	btn.add_theme_font_size_override("font_size", font_sz)
-	btn.add_theme_font_override("font", PIXEL_FONT) 
-	var states  := ["normal",              "hover",               "pressed",             "focus",               "disabled"]
-	var colors  := [Color(0.18,0.18,0.18), Color(0.30,0.30,0.30), Color(0.10,0.28,0.10), Color(0.18,0.18,0.18), Color(0.12,0.12,0.12)]
-	for i in states.size():
-		var sb := StyleBoxFlat.new()
-		sb.bg_color = colors[i]
-		sb.corner_radius_top_left    = 2
-		sb.corner_radius_top_right   = 2
-		sb.corner_radius_bottom_left = 2
-		sb.corner_radius_bottom_right = 2
-		sb.content_margin_top    = 2
-		sb.content_margin_bottom = 2
-		sb.content_margin_left   = 4
-		sb.content_margin_right  = 4
-		btn.add_theme_stylebox_override(states[i], sb)
-
 
 func _enqueue(cmd: String) -> void:
 	if _queue.size() >= MAX_SLOTS: return
