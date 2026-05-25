@@ -13,7 +13,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
-offset_top = -99.0
+offset_top = -78.0
 offset_right = -5.0
 offset_bottom = -3.0
 grow_horizontal = 2
@@ -31,108 +31,125 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=1543750474]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="TopRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=1997753678]
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin" unique_id=1997753678]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="DPad" type="GridContainer" parent="Panel/Margin/VBox/TopRow" unique_id=1914128786]
+[node name="DPad" type="GridContainer" parent="Panel/Margin/HBox" unique_id=1914128786]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
 columns = 3
 
-[node name="Sp1" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=504663382]
+[node name="Sp1" type="Control" parent="Panel/Margin/HBox/DPad" unique_id=504663382]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 
-[node name="BtnUp" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=648108523]
+[node name="BtnUp" type="Button" parent="Panel/Margin/HBox/DPad" unique_id=648108523]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "↑"
 
-[node name="Sp2" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=932562135]
+[node name="Sp2" type="Control" parent="Panel/Margin/HBox/DPad" unique_id=932562135]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 
-[node name="BtnLeft" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=1589540359]
+[node name="BtnLeft" type="Button" parent="Panel/Margin/HBox/DPad" unique_id=1589540359]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "←"
 
-[node name="BtnJump" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=870919966]
+[node name="BtnJump" type="Button" parent="Panel/Margin/HBox/DPad" unique_id=870919966]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "○"
 
-[node name="BtnRight" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=211985155]
+[node name="BtnRight" type="Button" parent="Panel/Margin/HBox/DPad" unique_id=211985155]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "→"
 
-[node name="Sp3" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=963540460]
+[node name="Sp3" type="Control" parent="Panel/Margin/HBox/DPad" unique_id=963540460]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 
-[node name="BtnDown" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=945447920]
+[node name="BtnDown" type="Button" parent="Panel/Margin/HBox/DPad" unique_id=945447920]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "↓"
 
-[node name="Sp4" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=344564087]
+[node name="Sp4" type="Control" parent="Panel/Margin/HBox/DPad" unique_id=344564087]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 
-[node name="Sep1" type="VSeparator" parent="Panel/Margin/VBox/TopRow" unique_id=1196464839]
+[node name="Sep1" type="VSeparator" parent="Panel/Margin/HBox" unique_id=1196464839]
 layout_mode = 2
 
-[node name="Queue" type="VBoxContainer" parent="Panel/Margin/VBox/TopRow" unique_id=1722506151]
+[node name="Queue" type="VBoxContainer" parent="Panel/Margin/HBox" unique_id=1722506151]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
 
-[node name="QueueLabel" type="Label" parent="Panel/Margin/VBox/TopRow/Queue" unique_id=1604981099]
+[node name="QueueLabel" type="Label" parent="Panel/Margin/HBox/Queue" unique_id=1604981099]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Cola:"
 
-[node name="Slots" type="HBoxContainer" parent="Panel/Margin/VBox/TopRow/Queue" unique_id=1487513496]
+[node name="Slots" type="HBoxContainer" parent="Panel/Margin/HBox/Queue" unique_id=1487513496]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BottomRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=41147282]
+[node name="Buttons" type="VBoxContainer" parent="Panel/Margin/HBox" unique_id=1176916268]
 layout_mode = 2
-theme_override_constants/separation = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 2
 
-[node name="BtnExecute" type="Button" parent="Panel/Margin/VBox/BottomRow" unique_id=453551612]
+[node name="BtnExecute" type="Button" parent="Panel/Margin/HBox/Buttons" unique_id=719737398]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 6
 text = "▶ Ejecutar"
 
-[node name="BtnClear" type="Button" parent="Panel/Margin/VBox/BottomRow" unique_id=1011530527]
+[node name="BtnClear" type="Button" parent="Panel/Margin/HBox/Buttons" unique_id=268067705]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 6
 text = "✕ Limpiar"
 
-[node name="BtnRestart" type="Button" parent="Panel/Margin/VBox/BottomRow" unique_id=207131774]
+[node name="BtnRestart" type="Button" parent="Panel/Margin/HBox/Buttons" unique_id=955354212]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 6
 text = "↺ Reiniciar"
 
-[node name="BtnLevels" type="Button" parent="Panel/Margin/VBox/BottomRow" unique_id=359112055]
-layout_mode = 2
+[node name="PanelMenu" type="Panel" parent="." unique_id=1285865044]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_top = 2.0
+offset_bottom = 42.0
+grow_horizontal = 0
+
+[node name="BtnLevels" type="Button" parent="PanelMenu" unique_id=1433505967]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -9.5
+offset_right = 21.0
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 6
 text = "☰ Niveles"

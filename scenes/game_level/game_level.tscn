@@ -8,10 +8,12 @@
 [node name="GameLevel" type="Node2D" unique_id=1969413610]
 script = ExtResource("1_wvkt4")
 
-[node name="FloorLayer" type="TileMapLayer" parent="." unique_id=1299516887]
+[node name="MapRoot" type="Node2D" parent="." unique_id=1291255433]
+
+[node name="FloorLayer" type="TileMapLayer" parent="MapRoot" unique_id=1299516887]
 tile_set = ExtResource("2_ut8xk")
 
-[node name="WallsLayer" type="TileMapLayer" parent="." unique_id=526426670]
+[node name="WallsLayer" type="TileMapLayer" parent="MapRoot" unique_id=526426670]
 z_index = 2
 tile_set = ExtResource("2_ut8xk")
 

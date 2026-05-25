@@ -1,9 +1,12 @@
 extends Node2D
 
 const PlayerScene := preload("res://scenes/player/Player.tscn")
+const TILE := 16
 
-@onready var floor_layer:      TileMapLayer = $FloorLayer
-@onready var walls_layer:      TileMapLayer = $WallsLayer
+# ── MapRoot wraps all world-space objects so we can offset them together ──
+@onready var map_root:         Node2D       = $MapRoot
+@onready var floor_layer:      TileMapLayer = $MapRoot/FloorLayer
+@onready var walls_layer:      TileMapLayer = $MapRoot/WallsLayer
 @onready var _ui:              CanvasLayer  = $CommandUI
 @onready var _win_overlay:     CanvasLayer  = $WinOverlay
 @onready var _win_restart_btn: Button       = $WinOverlay/Background/Panel/VBox/BtnRestart
@@ -18,8 +21,18 @@ var _running := false
 
 func _ready() -> void:
 	_level_key = SaveSystem.current_level_key
-
 	level_data = LevelLoader.load_level(_level_key, floor_layer, walls_layer)
+
+	# ── Center the map horizontally in the viewport ──────────────────────
+	var vp        := get_viewport_rect().size          # e.g. 480 × 270
+	var map_w:    int   = int(level_data["cols"]) * TILE         # 16 × 16 = 256
+	var map_h:    int   = int(level_data["rows"]) * TILE        # 12 × 16 = 192
+	var offset_x: float = floor((vp.x - float(map_w)) / 2.0)      # (480-256)/2 = 112
+	#var offset_y: float = floor((vp.y - float(map_h)) / 2.0)      # (270-192)/2 =  39  ← optional
+	map_root.position = Vector2(offset_x, 0)
+	# If you prefer top-aligned (tilemap touches top edge), use:
+	#   map_root.position = Vector2(offset_x, 0.0)
+	# ─────────────────────────────────────────────────────────────────────
 
 	player_model = PlayerModel.new(
 		level_data["cols"],
@@ -30,11 +43,11 @@ func _ready() -> void:
 	)
 
 	pickup_manager = PickupManager.new()
-	add_child(pickup_manager)
+	map_root.add_child(pickup_manager)   # ← was add_child(pickup_manager)
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 
 	player = PlayerScene.instantiate()
-	add_child(player)
+	map_root.add_child(player)           # ← was add_child(player)
 	player.z_index = 4
 	player.setup(player_model)
 
