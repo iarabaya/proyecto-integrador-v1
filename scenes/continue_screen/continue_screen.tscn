@@ -21,20 +21,38 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.26666668, 0.26666668, 0.4, 1)
 
-[node name="Center" type="CenterContainer" parent="Background" unique_id=1953464377]
+[node name="Panel" type="Panel" parent="Background" unique_id=1085273804]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -87.0
+offset_right = 110.0
+offset_bottom = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Background/Panel" unique_id=1630185055]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="Card" type="VBoxContainer" parent="Background/Center" unique_id=753892285]
+[node name="Card" type="VBoxContainer" parent="Background/Panel/Margin" unique_id=753892285]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Title" type="Label" parent="Background/Center/Card" unique_id=629146353]
+[node name="Title" type="Label" parent="Background/Panel/Margin/Card" unique_id=629146353]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9749756, 0.359375, 1)
 theme_override_fonts/font = ExtResource("1_neff4")
@@ -42,19 +60,19 @@ text = "GATITO CODE"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Subtitle" type="Label" parent="Background/Center/Card" unique_id=1874556196]
+[node name="Subtitle" type="Label" parent="Background/Panel/Margin/Card" unique_id=1874556196]
 layout_mode = 2
 text = "Nivel 1 - Gimnasio"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Sep" type="HSeparator" parent="Background/Center/Card" unique_id=1452403004]
+[node name="Sep" type="HSeparator" parent="Background/Panel/Margin/Card" unique_id=1452403004]
 layout_mode = 2
 
-[node name="BtnContinue" type="Button" parent="Background/Center/Card" unique_id=1939094138]
+[node name="BtnContinue" type="Button" parent="Background/Panel/Margin/Card" unique_id=1939094138]
 layout_mode = 2
 text = "▶ Continuar"
 
-[node name="BtnNewGame" type="Button" parent="Background/Center/Card" unique_id=258963053]
+[node name="BtnNewGame" type="Button" parent="Background/Panel/Margin/Card" unique_id=258963053]
 layout_mode = 2
 text = "↺ Nueva partida"

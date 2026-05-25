@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cwe8h87xchg5p"]
 
 [ext_resource type="Script" uid="uid://ba8hif3om61yt" path="res://scenes/main_menu/main_menu.gd" id="1_fsom3"]
-[ext_resource type="StyleBox" uid="uid://daf3doa5ywsg6" path="res://theme/basic-button.tres" id="2_0ebjn"]
 [ext_resource type="Theme" uid="uid://c4koxfd11wnyg" path="res://theme/general-ui.tres" id="2_ob46e"]
 
 [node name="MainMenu" type="Control" unique_id=977152885]
@@ -63,7 +62,6 @@ text = "☰  Niveles"
 
 [node name="BtnSettings" type="Button" parent="BG/Center/Panel/Card" unique_id=1473151501]
 layout_mode = 2
-theme_override_styles/normal = ExtResource("2_0ebjn")
 text = "⚙  Configuración"
 
 [node name="BtnCredits" type="Button" parent="BG/Center/Panel/Card" unique_id=82749372]

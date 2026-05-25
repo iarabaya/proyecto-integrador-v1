@@ -23,7 +23,6 @@ var _slot_labels: Array[Label] = []
 @onready var _btn_clear:   Button        = $Panel/Margin/VBox/BottomRow/BtnClear
 @onready var _btn_restart: Button        = $Panel/Margin/VBox/BottomRow/BtnRestart
 @onready var _slots_hbox:  HBoxContainer = $Panel/Margin/VBox/TopRow/Queue/Slots
-@onready var _queue_label: Label         = $Panel/Margin/VBox/TopRow/Queue/QueueLabel
 @onready var _btn_levels: Button = $Panel/Margin/VBox/BottomRow/BtnLevels
 
 
