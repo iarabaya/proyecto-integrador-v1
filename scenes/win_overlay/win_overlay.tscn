@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://bu304ovs2lqfh"]
 
 [ext_resource type="FontFile" uid="uid://dkitho2rt50ap" path="res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf" id="1_b66r8"]
-[ext_resource type="StyleBox" uid="uid://buebtntmqbc74" path="res://scenes/level_select/win_button.tres" id="2_nxvwg"]
-[ext_resource type="StyleBox" uid="uid://kxe6w37gyw7f" path="res://scenes/level_select/win_button_hover.tres" id="2_r3voq"]
 
 [node name="WinOverlay" type="CanvasLayer" unique_id=1863438383]
 layer = 10
@@ -17,42 +15,54 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.65)
 
-[node name="VBox" type="VBoxContainer" parent="Background" unique_id=276453780]
+[node name="Panel" type="Panel" parent="Background" unique_id=1569731659]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = -68.0
+offset_right = 107.0
+offset_bottom = 68.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+
+[node name="VBox" type="VBoxContainer" parent="Background/Panel" unique_id=276453780]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -98.5
+offset_top = -57.0
+offset_right = 98.5
+offset_bottom = 57.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="WinLabel" type="Label" parent="Background/VBox" unique_id=1224414093]
+[node name="WinLabel" type="Label" parent="Background/Panel/VBox" unique_id=1224414093]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_b66r8")
 theme_override_font_sizes/font_size = 14
-text = "¡Completaste el nivel! 🎉"
+text = "🎉¡Completaste el nivel! 🎉"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnRestart" type="Button" parent="Background/VBox" unique_id=1490513893]
+[node name="BtnRestart" type="Button" parent="Background/Panel/VBox" unique_id=1490513893]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("1_b66r8")
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_nxvwg")
-theme_override_styles/hover = ExtResource("2_r3voq")
 text = "↺ Reiniciar"
 
-[node name="BtnNext" type="Button" parent="Background/VBox" unique_id=806332681]
+[node name="BtnNext" type="Button" parent="Background/Panel/VBox" unique_id=806332681]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("1_b66r8")
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_nxvwg")
-theme_override_styles/hover = ExtResource("2_r3voq")
 text = "▶ Siguiente nivel"

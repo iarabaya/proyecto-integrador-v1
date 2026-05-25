@@ -6,8 +6,8 @@ const PlayerScene := preload("res://scenes/player/Player.tscn")
 @onready var walls_layer:      TileMapLayer = $WallsLayer
 @onready var _ui:              CanvasLayer  = $CommandUI
 @onready var _win_overlay:     CanvasLayer  = $WinOverlay
-@onready var _win_restart_btn: Button       = $WinOverlay/Background/VBox/BtnRestart
-@onready var _win_next_btn:    Button       = $WinOverlay/Background/VBox/BtnNext
+@onready var _win_restart_btn: Button       = $WinOverlay/Background/Panel/VBox/BtnRestart
+@onready var _win_next_btn:    Button       = $WinOverlay/Background/Panel/VBox/BtnNext
 
 var _level_key: String
 var level_data: Dictionary

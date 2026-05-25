@@ -2,8 +2,8 @@ extends Control
 
 const PIXEL_FONT = preload("res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf")
 
-@onready var _grid: GridContainer = $Background/Margin/VBox/Grid
-@onready var _header: Label       = $Background/Margin/VBox/Header
+@onready var _grid: GridContainer = $Background/Panel/Margin/VBox/Grid
+@onready var _header: Label       = $Background/Panel/Margin/VBox/Header
 
 func _ready() -> void:
 	_header.add_theme_font_size_override("font_size", 12)
@@ -17,7 +17,7 @@ func _build_card(lvl: Dictionary) -> void:
 
 	# Outer panel
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(100, 60)
+	panel.custom_minimum_size = Vector2(80, 60)
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = Color(0.18, 0.18, 0.18) if unlocked else Color(0.10, 0.10, 0.10)
 	sb.corner_radius_top_left    = 4

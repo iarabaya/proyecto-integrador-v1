@@ -32,6 +32,7 @@ window/stretch/scale_mode="integer"
 [gui]
 
 theme/default_font_multichannel_signed_distance_field=true
+theme/custom="uid://c4koxfd11wnyg"
 
 [physics]
 
