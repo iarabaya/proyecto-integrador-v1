@@ -20,6 +20,7 @@ var player_model: PlayerModel
 var player: Node2D
 var pickup_manager: PickupManager
 var _running := false
+var _has_executed := false
 
 func _ready() -> void:
 	_level_key = SaveSystem.current_level_key
@@ -65,6 +66,11 @@ func run_program(moves: Array) -> void:
 	if _running: return
 	_running = true
 	_ui.lock(true)
+	
+	if _has_executed:
+		_restart_state()
+	
+	_has_executed = true
 	_character_reaction.show_emote("neutral") 
 
 	await ProgramExecutor.execute_program(moves, player, pickup_manager)
@@ -81,15 +87,19 @@ func run_program(moves: Array) -> void:
 	if pickup_manager.get_remaining() > 0:
 		await _character_reaction.show_emote_after_current("annoyed")
 
-func restart_level() -> void:
-	_win_overlay.visible = false
-	_ui.lock(false)
-	if _running: return
-	print("restart")
+func _restart_state() -> void:
 	player_model.reset()
 	pickup_manager.reset()
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 	player.setup(player_model)
+
+func restart_level() -> void:
+	_win_overlay.visible = false
+	_ui.lock(false)
+	if _running: return
+	_restart_state()
+	_has_executed = false
+	_ui.clear_queue()              # clears the sequence (add this method if not done yet)
 	_character_reaction.show_emote("happy")
 
 func _on_next_level() -> void:

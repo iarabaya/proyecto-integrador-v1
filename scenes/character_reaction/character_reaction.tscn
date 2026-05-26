@@ -15,6 +15,5 @@ script = ExtResource("1_1lm5o")
 [node name="CharacterReaction" type="AnimatedSprite2D" parent="." unique_id=1088237236]
 scale = Vector2(0.75, 0.75)
 sprite_frames = ExtResource("2_i51dj")
-animation = &"neutral"
-frame = 7
-frame_progress = 1.0
+animation = &"excited"
+frame_progress = 0.90655476
