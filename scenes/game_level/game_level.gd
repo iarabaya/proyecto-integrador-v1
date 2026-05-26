@@ -46,6 +46,7 @@ func _ready() -> void:
 	pickup_manager = PickupManager.new()
 	map_root.add_child(pickup_manager)
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
+	pickup_manager.pickup_collected.connect(_on_pickup_collected)
 
 	player = PlayerScene.instantiate()
 	map_root.add_child(player)
@@ -73,7 +74,7 @@ func run_program(moves: Array) -> void:
 		_character_reaction.show_emote("boss") 
 		_win_overlay.visible = true
 	else:
-		_character_reaction.show_emote("annoyed")  
+		await _character_reaction.show_emote_after_current("annoyed")
 		_ui.lock(false)
 
 	_running = false
@@ -95,6 +96,9 @@ func _on_next_level() -> void:
 
 func _on_menu_pressed() -> void:
 	get_tree().change_scene_to_file.call_deferred("res://scenes/main_menu/main_menu.tscn")
+
+func _on_pickup_collected() -> void:
+	_character_reaction.show_emote("heart")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
