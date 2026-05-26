@@ -57,6 +57,12 @@ func _ready() -> void:
 	map_root.add_child(player)
 	player.z_index = 4
 	player.setup(player_model)
+	
+	# Grid overlay
+	var grid := TileGrid.new()
+	grid.z_index = 3
+	map_root.add_child(grid)
+	grid.setup(int(level_data["cols"]), int(level_data["rows"]))
 
 	_ui.execute_requested.connect(run_program)
 	_ui.restart_requested.connect(restart_level)
