@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://5g8m162t7bhs"]
+
+[ext_resource type="Script" uid="uid://cpruelprv8ctj" path="res://scenes/character_reaction/character_reaction.gd" id="1_1lm5o"]
+[ext_resource type="SpriteFrames" uid="uid://c00xq4ult8kkr" path="res://assets/resources/emotes.tres" id="2_i51dj"]
+
+[node name="CharacterReaction" type="Control" unique_id=944258130]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1lm5o")
+
+[node name="CharacterReaction" type="AnimatedSprite2D" parent="." unique_id=1088237236]
+scale = Vector2(0.75, 0.75)
+sprite_frames = ExtResource("2_i51dj")
+animation = &"happy"
+frame = 22
+frame_progress = 1.0

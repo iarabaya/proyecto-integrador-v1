@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://dma6k0ukmprbq" path="res://assets/ui/commands/command-buttons.png" id="3_u0x5q"]
 [ext_resource type="Texture2D" uid="uid://bk126ddbd0h21" path="res://assets/ui/commands/command-buttons-pressed.png" id="4_8owkn"]
 [ext_resource type="Texture2D" uid="uid://jpttbuspbucl" path="res://assets/ui/commands/command-buttons-hover.png" id="4_u0x5q"]
+[ext_resource type="Texture2D" uid="uid://cqjg4ku15qsau" path="res://assets/ui/buttons/menu-buttons.png" id="5_8owkn"]
+[ext_resource type="Texture2D" uid="uid://cfpjlhlfa8ip8" path="res://assets/ui/panels/reaction-panel.png" id="6_l0yli"]
+[ext_resource type="PackedScene" uid="uid://5g8m162t7bhs" path="res://scenes/character_reaction/character_reaction.tscn" id="7_j4eh3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_labaj"]
 atlas = ExtResource("3_u0x5q")
@@ -52,6 +55,18 @@ region = Rect2(2, 49, 12, 15)
 [sub_resource type="AtlasTexture" id="AtlasTexture_j55fk"]
 atlas = ExtResource("4_u0x5q")
 region = Rect2(2, 49, 12, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5w3ev"]
+atlas = ExtResource("5_8owkn")
+region = Rect2(5, 3, 24, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oh1om"]
+atlas = ExtResource("5_8owkn")
+region = Rect2(37, 3, 24, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3woxt"]
+atlas = ExtResource("5_8owkn")
+region = Rect2(68, 3, 24, 26)
 
 [node name="CommandUI" type="CanvasLayer" unique_id=1687930181]
 layer = 10
@@ -220,3 +235,36 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 6
 text = "☰ Niveles"
+
+[node name="MenuButton" type="TextureButton" parent="." unique_id=1504140277]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 29.0
+offset_bottom = 31.0
+texture_normal = SubResource("AtlasTexture_5w3ev")
+texture_pressed = SubResource("AtlasTexture_oh1om")
+texture_hover = SubResource("AtlasTexture_3woxt")
+
+[node name="ReactionPanel" type="TextureRect" parent="." unique_id=1178139181]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -130.0
+offset_right = 112.0
+offset_bottom = -82.0
+grow_vertical = 0
+texture = ExtResource("6_l0yli")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Reaction" parent="." unique_id=944258130 instance=ExtResource("7_j4eh3")]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 26.0
+offset_top = 29.0
+offset_right = 26.0
+offset_bottom = 29.0
+grow_horizontal = 1

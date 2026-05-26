@@ -8,6 +8,8 @@ const TILE := 16
 @onready var floor_layer:      TileMapLayer = $MapRoot/FloorLayer
 @onready var walls_layer:      TileMapLayer = $MapRoot/WallsLayer
 @onready var _ui:              CanvasLayer  = $CommandUI
+@onready var _character_reaction: CharacterReaction = $CommandUI/Reaction
+@onready var _btn_menu: TextureButton = $CommandUI/MenuButton
 @onready var _win_overlay:     CanvasLayer  = $WinOverlay
 @onready var _win_restart_btn: Button       = $WinOverlay/Background/Panel/VBox/BtnRestart
 @onready var _win_next_btn:    Button       = $WinOverlay/Background/Panel/VBox/BtnNext
@@ -42,30 +44,36 @@ func _ready() -> void:
 	)
 
 	pickup_manager = PickupManager.new()
-	map_root.add_child(pickup_manager)   # ← was add_child(pickup_manager)
+	map_root.add_child(pickup_manager)
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 
 	player = PlayerScene.instantiate()
-	map_root.add_child(player)           # ← was add_child(player)
+	map_root.add_child(player)
 	player.z_index = 4
 	player.setup(player_model)
 
 	_ui.execute_requested.connect(run_program)
 	_ui.restart_requested.connect(restart_level)
+	_btn_menu.pressed.connect(_on_menu_pressed)
 	_win_restart_btn.pressed.connect(restart_level)
 	_win_next_btn.pressed.connect(_on_next_level)
+	
+	_character_reaction.show_emote("appear")    
 
 func run_program(moves: Array) -> void:
 	if _running: return
 	_running = true
 	_ui.lock(true)
+	_character_reaction.show_emote("neutral") 
 
 	await ProgramExecutor.execute_program(moves, player, pickup_manager)
 
 	if pickup_manager.get_remaining() == 0:
 		SaveSystem.complete_level(_level_key)
+		_character_reaction.show_emote("boss") 
 		_win_overlay.visible = true
 	else:
+		_character_reaction.show_emote("annoyed")  
 		_ui.lock(false)
 
 	_running = false
@@ -78,11 +86,15 @@ func restart_level() -> void:
 	pickup_manager.reset()
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 	player.setup(player_model)
+	_character_reaction.show_emote("happy")
 
 func _on_next_level() -> void:
 	var next := SaveSystem.get_continue_level()
 	if next.is_empty(): return
 	SaveSystem.launch_level(next["key"])
+
+func _on_menu_pressed() -> void:
+	get_tree().change_scene_to_file.call_deferred("res://scenes/main_menu/main_menu.tscn")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
