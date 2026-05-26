@@ -5,7 +5,7 @@ const PIXEL_FONT = preload("res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf"
 signal execute_requested(moves: Array)
 signal restart_requested()
 
-const MAX_SLOTS := 20
+const MAX_SLOTS := 25
 const SLOT_WIDTH := 50     # ← fixed width per slot 
 const CMD_LABEL: Dictionary = {
 	"up": "↑", "down": "↓", "left": "←", "right": "→", "jump": "○",

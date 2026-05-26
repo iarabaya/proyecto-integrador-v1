@@ -56,11 +56,6 @@ func reset() -> void:
 		child.queue_free()
 	pickups.clear()
 	collected = 0
-	for obj in _objects_data:
-		if obj["type"] == "pickup":
-			_spawn_pickup(obj)
-		else:
-			_spawn_deco(obj)
 
 
 # ── Spawning ──────────────────────────────────────────────────────────────────

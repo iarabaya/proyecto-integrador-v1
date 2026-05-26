@@ -7,9 +7,13 @@ const TILE := 16
 @onready var map_root:         Node2D       = $MapRoot
 @onready var floor_layer:      TileMapLayer = $MapRoot/FloorLayer
 @onready var walls_layer:      TileMapLayer = $MapRoot/WallsLayer
+
 @onready var _ui:              CanvasLayer  = $CommandUI
-@onready var _character_reaction: CharacterReaction = $CommandUI/Reaction
+@onready var _character_reaction: CharacterReaction = $CommandUI/ReactionPanel/Reaction
+@onready var _pickup_label: Label = $CommandUI/ReactionPanel/PickupLabel
+
 @onready var _btn_menu: TextureButton = $CommandUI/MenuButton
+
 @onready var _win_overlay:     CanvasLayer  = $WinOverlay
 @onready var _win_restart_btn: Button       = $WinOverlay/Background/Panel/VBox/BtnRestart
 @onready var _win_next_btn:    Button       = $WinOverlay/Background/Panel/VBox/BtnNext
@@ -60,7 +64,8 @@ func _ready() -> void:
 	_win_restart_btn.pressed.connect(restart_level)
 	_win_next_btn.pressed.connect(_on_next_level)
 	
-	_character_reaction.show_emote("appear")    
+	_character_reaction.show_emote("appear")
+	_update_pickup_counter()      
 
 func run_program(moves: Array) -> void:
 	if _running: return
@@ -68,7 +73,7 @@ func run_program(moves: Array) -> void:
 	_ui.lock(true)
 	
 	if _has_executed:
-		_restart_state()
+		await _restart_state() 
 	
 	_has_executed = true
 	_character_reaction.show_emote("neutral") 
@@ -82,7 +87,7 @@ func run_program(moves: Array) -> void:
 	else:
 		_ui.lock(false)
 	
-	_running = false                                     # ← always runs now
+	_running = false  # ← always runs now
 	
 	if pickup_manager.get_remaining() > 0:
 		await _character_reaction.show_emote_after_current("annoyed")
@@ -90,16 +95,18 @@ func run_program(moves: Array) -> void:
 func _restart_state() -> void:
 	player_model.reset()
 	pickup_manager.reset()
+	await get_tree().process_frame  # ← wait for old sprites to be freed
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 	player.setup(player_model)
+	_update_pickup_counter()
 
 func restart_level() -> void:
 	_win_overlay.visible = false
 	_ui.lock(false)
 	if _running: return
-	_restart_state()
+	await _restart_state()
 	_has_executed = false
-	_ui.clear_queue()              # clears the sequence (add this method if not done yet)
+	_ui.clear_queue()   # clears the sequence
 	_character_reaction.show_emote("happy")
 
 func _on_next_level() -> void:
@@ -112,7 +119,13 @@ func _on_menu_pressed() -> void:
 
 func _on_pickup_collected() -> void:
 	_character_reaction.show_emote("heart")
+	_update_pickup_counter()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().change_scene_to_file.call_deferred("res://scenes/level_select/level_select.tscn")
+
+func _update_pickup_counter() -> void:
+	var collected := pickup_manager.get_collected()
+	var total := collected + pickup_manager.get_remaining()
+	_pickup_label.text = "%d/%d" % [collected, total]
