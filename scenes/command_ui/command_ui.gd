@@ -14,10 +14,10 @@ const CMD_LABEL: Dictionary = {
 var _queue: Array[String] = []
 var _slot_labels: Array[Label] = []
 
-@onready var _btn_up:      Button        = $Panel/Margin/HBox/DPad/BtnUp
-@onready var _btn_down:    Button        = $Panel/Margin/HBox/DPad/BtnDown
-@onready var _btn_left:    Button        = $Panel/Margin/HBox/DPad/BtnLeft
-@onready var _btn_right:   Button        = $Panel/Margin/HBox/DPad/BtnRight
+@onready var _btn_up:      TextureButton        = $Panel/Margin/HBox/DPad/BtnUp
+@onready var _btn_down:    TextureButton        = $Panel/Margin/HBox/DPad/BtnDown
+@onready var _btn_left:    TextureButton        = $Panel/Margin/HBox/DPad/BtnLeft
+@onready var _btn_right:   TextureButton        = $Panel/Margin/HBox/DPad/BtnRight
 @onready var _btn_jump:    Button        = $Panel/Margin/HBox/DPad/BtnJump
 @onready var _slots_hbox:  HBoxContainer = $Panel/Margin/HBox/Queue/Slots
 @onready var _btn_execute: Button        = $Panel/Margin/HBox/Buttons/BtnExecute

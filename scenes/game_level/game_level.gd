@@ -26,12 +26,11 @@ func _ready() -> void:
 	# ── Center the map horizontally in the viewport ──────────────────────
 	var vp        := get_viewport_rect().size          # e.g. 480 × 270
 	var map_w:    int   = int(level_data["cols"]) * TILE         # 16 × 16 = 256
-	var map_h:    int   = int(level_data["rows"]) * TILE        # 12 × 16 = 192
+	#var map_h:    int   = int(level_data["rows"]) * TILE        # 12 × 16 = 192
 	var offset_x: float = floor((vp.x - float(map_w)) / 2.0)      # (480-256)/2 = 112
 	#var offset_y: float = floor((vp.y - float(map_h)) / 2.0)      # (270-192)/2 =  39  ← optional
-	map_root.position = Vector2(offset_x, 0)
 	# If you prefer top-aligned (tilemap touches top edge), use:
-	#   map_root.position = Vector2(offset_x, 0.0)
+	map_root.position = Vector2(offset_x, 0.0)
 	# ─────────────────────────────────────────────────────────────────────
 
 	player_model = PlayerModel.new(

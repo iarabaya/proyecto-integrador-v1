@@ -1,0 +1,10 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://b5jabgrb4xbxe"]
+
+[ext_resource type="Texture2D" uid="uid://dfygs728ck3ke" path="res://assets/ui/commands/right-arrow.png" id="1_017yk"]
+
+[resource]
+content_margin_left = 10.0
+content_margin_right = 10.0
+texture = ExtResource("1_017yk")
+texture_margin_bottom = 0.05730853
+region_rect = Rect2(3, 2, 11, 12)
