@@ -22,11 +22,11 @@ SaveSystem="*uid://by3gd6w4vlxfq"
 
 [display]
 
-window/size/viewport_width=256
-window/size/viewport_height=284
-window/size/window_width_override=768
-window/size/window_height_override=816
-window/stretch/mode="viewport"
+window/size/viewport_width=480
+window/size/viewport_height=270
+window/size/window_width_override=960
+window/size/window_height_override=540
+window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 
 [gui]

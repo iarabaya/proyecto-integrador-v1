@@ -6,6 +6,7 @@ extends Node2D
 
 
 const FRAME_SIZE := 16
+signal pickup_collected
 
 # Maps object keys from gym.json to their spritesheet info
 const OBJECT_SHEETS: Dictionary = {
@@ -40,6 +41,7 @@ func check_pickup(tx: int, ty: int) -> void:
 	var data: Dictionary = pickups[key]
 	pickups.erase(key)
 	collected += 1
+	pickup_collected.emit()
 	_play_collect(data["sprite"], data["tween"])
 
 
@@ -54,11 +56,6 @@ func reset() -> void:
 		child.queue_free()
 	pickups.clear()
 	collected = 0
-	for obj in _objects_data:
-		if obj["type"] == "pickup":
-			_spawn_pickup(obj)
-		else:
-			_spawn_deco(obj)
 
 
 # ── Spawning ──────────────────────────────────────────────────────────────────

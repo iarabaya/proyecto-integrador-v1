@@ -113,6 +113,7 @@ func reset() -> void:
 	tx     = spawn_tx
 	ty     = spawn_ty
 	facing = "down"
+	print("reset player")
 
 
 # ── Animation frame helpers (mirrors Player.js static methods) ────────────────

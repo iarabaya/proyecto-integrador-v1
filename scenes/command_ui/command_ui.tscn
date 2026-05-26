@@ -1,6 +1,72 @@
 [gd_scene format=3 uid="uid://j61t04tbn3iq"]
 
 [ext_resource type="Script" uid="uid://bo0hm4ql2cbo6" path="res://scenes/command_ui/command_ui.gd" id="1_hbfb6"]
+[ext_resource type="Texture2D" uid="uid://dma6k0ukmprbq" path="res://assets/ui/commands/command-buttons.png" id="3_u0x5q"]
+[ext_resource type="Texture2D" uid="uid://bk126ddbd0h21" path="res://assets/ui/commands/command-buttons-pressed.png" id="4_8owkn"]
+[ext_resource type="Texture2D" uid="uid://jpttbuspbucl" path="res://assets/ui/commands/command-buttons-hover.png" id="4_u0x5q"]
+[ext_resource type="Texture2D" uid="uid://cqjg4ku15qsau" path="res://assets/ui/buttons/menu-buttons.png" id="5_8owkn"]
+[ext_resource type="Texture2D" uid="uid://cfpjlhlfa8ip8" path="res://assets/ui/panels/reaction-panel.png" id="6_l0yli"]
+[ext_resource type="PackedScene" uid="uid://5g8m162t7bhs" path="res://scenes/character_reaction/character_reaction.tscn" id="7_j4eh3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_labaj"]
+atlas = ExtResource("3_u0x5q")
+region = Rect2(2, 32, 12, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0x5q"]
+atlas = ExtResource("4_8owkn")
+region = Rect2(2, 32, 12, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqhpe"]
+atlas = ExtResource("4_u0x5q")
+region = Rect2(2, 32, 12, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8owkn"]
+atlas = ExtResource("3_u0x5q")
+region = Rect2(1, 17, 13, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sobad"]
+atlas = ExtResource("4_8owkn")
+region = Rect2(1, 17, 13, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rrp1"]
+atlas = ExtResource("4_u0x5q")
+region = Rect2(1, 17, 13, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvh2e"]
+atlas = ExtResource("3_u0x5q")
+region = Rect2(2, 1, 13, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4eh3"]
+atlas = ExtResource("4_8owkn")
+region = Rect2(2, 1, 13, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ufj1"]
+atlas = ExtResource("4_u0x5q")
+region = Rect2(2, 1, 13, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0yli"]
+atlas = ExtResource("3_u0x5q")
+region = Rect2(2, 49, 12, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6e0d"]
+atlas = ExtResource("4_8owkn")
+region = Rect2(2, 49, 12, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j55fk"]
+atlas = ExtResource("4_u0x5q")
+region = Rect2(2, 49, 12, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5w3ev"]
+atlas = ExtResource("5_8owkn")
+region = Rect2(5, 3, 24, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oh1om"]
+atlas = ExtResource("5_8owkn")
+region = Rect2(37, 3, 24, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3woxt"]
+atlas = ExtResource("5_8owkn")
+region = Rect2(68, 3, 24, 26)
 
 [node name="CommandUI" type="CanvasLayer" unique_id=1687930181]
 layer = 10
@@ -13,7 +79,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
-offset_top = -99.0
+offset_top = -78.0
 offset_right = -5.0
 offset_bottom = -3.0
 grow_horizontal = 2
@@ -31,108 +97,189 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=1543750474]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="TopRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=1997753678]
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin" unique_id=1997753678]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="DPad" type="GridContainer" parent="Panel/Margin/VBox/TopRow" unique_id=1914128786]
+[node name="DPad" type="GridContainer" parent="Panel/Margin/HBox" unique_id=1914128786]
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 2
 columns = 3
 
-[node name="Sp1" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=504663382]
+[node name="Sp1" type="Control" parent="Panel/Margin/HBox/DPad" unique_id=504663382]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="BtnUp" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=648108523]
+[node name="BtnUp" type="TextureButton" parent="Panel/Margin/HBox/DPad" unique_id=638861022]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_labaj")
+texture_pressed = SubResource("AtlasTexture_u0x5q")
+texture_hover = SubResource("AtlasTexture_lqhpe")
+
+[node name="Sp2" type="Control" parent="Panel/Margin/HBox/DPad" unique_id=932562135]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "↑"
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="Sp2" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=932562135]
-custom_minimum_size = Vector2(12, 12)
+[node name="BtnLeft" type="TextureButton" parent="Panel/Margin/HBox/DPad" unique_id=1769040756]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_8owkn")
+texture_pressed = SubResource("AtlasTexture_sobad")
+texture_hover = SubResource("AtlasTexture_3rrp1")
 
-[node name="BtnLeft" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=1589540359]
-custom_minimum_size = Vector2(12, 12)
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "←"
-
-[node name="BtnJump" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=870919966]
+[node name="BtnJump" type="Button" parent="Panel/Margin/HBox/DPad" unique_id=870919966]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "○"
 
-[node name="BtnRight" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=211985155]
+[node name="BtnRight" type="TextureButton" parent="Panel/Margin/HBox/DPad" unique_id=701796502]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_nvh2e")
+texture_pressed = SubResource("AtlasTexture_j4eh3")
+texture_hover = SubResource("AtlasTexture_8ufj1")
+
+[node name="Sp3" type="Control" parent="Panel/Margin/HBox/DPad" unique_id=963540460]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "→"
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="Sp3" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=963540460]
+[node name="BtnDown" type="TextureButton" parent="Panel/Margin/HBox/DPad" unique_id=678084432]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_l0yli")
+texture_pressed = SubResource("AtlasTexture_r6e0d")
+texture_hover = SubResource("AtlasTexture_j55fk")
+
+[node name="Sp4" type="Control" parent="Panel/Margin/HBox/DPad" unique_id=344564087]
 custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="BtnDown" type="Button" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=945447920]
-custom_minimum_size = Vector2(12, 12)
-layout_mode = 2
-theme_override_font_sizes/font_size = 8
-text = "↓"
-
-[node name="Sp4" type="Control" parent="Panel/Margin/VBox/TopRow/DPad" unique_id=344564087]
-custom_minimum_size = Vector2(12, 12)
+[node name="Sep1" type="VSeparator" parent="Panel/Margin/HBox" unique_id=1196464839]
 layout_mode = 2
 
-[node name="Sep1" type="VSeparator" parent="Panel/Margin/VBox/TopRow" unique_id=1196464839]
-layout_mode = 2
-
-[node name="Queue" type="VBoxContainer" parent="Panel/Margin/VBox/TopRow" unique_id=1722506151]
+[node name="Queue" type="VBoxContainer" parent="Panel/Margin/HBox" unique_id=1722506151]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
 
-[node name="QueueLabel" type="Label" parent="Panel/Margin/VBox/TopRow/Queue" unique_id=1604981099]
+[node name="QueueLabel" type="Label" parent="Panel/Margin/HBox/Queue" unique_id=1604981099]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "Cola:"
+text = "Secuencia:"
 
-[node name="Slots" type="HBoxContainer" parent="Panel/Margin/VBox/TopRow/Queue" unique_id=1487513496]
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/Margin/HBox/Queue" unique_id=1832934149]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 0
+
+[node name="Slots" type="HBoxContainer" parent="Panel/Margin/HBox/Queue/ScrollContainer" unique_id=1487513496]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BottomRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=41147282]
+[node name="Buttons" type="VBoxContainer" parent="Panel/Margin/HBox" unique_id=1176916268]
 layout_mode = 2
-theme_override_constants/separation = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 2
 
-[node name="BtnExecute" type="Button" parent="Panel/Margin/VBox/BottomRow" unique_id=453551612]
+[node name="BtnExecute" type="Button" parent="Panel/Margin/HBox/Buttons" unique_id=719737398]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 6
 text = "▶ Ejecutar"
 
-[node name="BtnClear" type="Button" parent="Panel/Margin/VBox/BottomRow" unique_id=1011530527]
+[node name="BtnClear" type="Button" parent="Panel/Margin/HBox/Buttons" unique_id=268067705]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 6
 text = "✕ Limpiar"
 
-[node name="BtnRestart" type="Button" parent="Panel/Margin/VBox/BottomRow" unique_id=207131774]
+[node name="BtnRestart" type="Button" parent="Panel/Margin/HBox/Buttons" unique_id=955354212]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 6
 text = "↺ Reiniciar"
 
-[node name="BtnLevels" type="Button" parent="Panel/Margin/VBox/BottomRow" unique_id=359112055]
-layout_mode = 2
+[node name="PanelMenu" type="Panel" parent="." unique_id=1285865044]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_top = 2.0
+offset_bottom = 42.0
+grow_horizontal = 0
+
+[node name="BtnLevels" type="Button" parent="PanelMenu" unique_id=1433505967]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -9.5
+offset_right = 21.0
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 6
 text = "☰ Niveles"
+
+[node name="MenuButton" type="TextureButton" parent="." unique_id=1504140277]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 29.0
+offset_bottom = 31.0
+texture_normal = SubResource("AtlasTexture_5w3ev")
+texture_pressed = SubResource("AtlasTexture_oh1om")
+texture_hover = SubResource("AtlasTexture_3woxt")
+
+[node name="ReactionPanel" type="TextureRect" parent="." unique_id=1178139181]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -130.0
+offset_right = 112.0
+offset_bottom = -82.0
+grow_vertical = 0
+texture = ExtResource("6_l0yli")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="PickupLabel" type="Label" parent="ReactionPanel" unique_id=725161062]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 17.0
+offset_right = 94.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 10
+text = "0/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Reaction" parent="ReactionPanel" unique_id=944258130 instance=ExtResource("7_j4eh3")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_left = 23.0
+offset_right = 23.0
+grow_horizontal = 1

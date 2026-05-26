@@ -66,9 +66,6 @@ text = "Nivel 1 - Gimnasio"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Sep" type="HSeparator" parent="Background/Panel/Margin/Card" unique_id=1452403004]
-layout_mode = 2
-
 [node name="BtnContinue" type="Button" parent="Background/Panel/Margin/Card" unique_id=1939094138]
 layout_mode = 2
 text = "▶ Continuar"
