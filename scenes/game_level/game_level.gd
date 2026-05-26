@@ -71,18 +71,21 @@ func run_program(moves: Array) -> void:
 
 	if pickup_manager.get_remaining() == 0:
 		SaveSystem.complete_level(_level_key)
-		_character_reaction.show_emote("boss") 
+		_character_reaction.show_emote("boss")
 		_win_overlay.visible = true
 	else:
-		await _character_reaction.show_emote_after_current("annoyed")
 		_ui.lock(false)
-
-	_running = false
+	
+	_running = false                                     # ← always runs now
+	
+	if pickup_manager.get_remaining() > 0:
+		await _character_reaction.show_emote_after_current("annoyed")
 
 func restart_level() -> void:
 	_win_overlay.visible = false
 	_ui.lock(false)
 	if _running: return
+	print("restart")
 	player_model.reset()
 	pickup_manager.reset()
 	pickup_manager.setup(level_data["objects"], level_data["solid"])

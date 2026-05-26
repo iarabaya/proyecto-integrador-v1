@@ -184,7 +184,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Secuencia:"
 
-[node name="Slots" type="HBoxContainer" parent="Panel/Margin/HBox/Queue" unique_id=1487513496]
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/Margin/HBox/Queue" unique_id=1832934149]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 0
+
+[node name="Slots" type="HBoxContainer" parent="Panel/Margin/HBox/Queue/ScrollContainer" unique_id=1487513496]
 layout_mode = 2
 size_flags_vertical = 3
 
