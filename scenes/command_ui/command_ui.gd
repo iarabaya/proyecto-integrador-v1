@@ -131,3 +131,32 @@ func _deselect_all() -> void:
 		if i < _slot_nodes.size():
 			_slot_nodes[i].modulate = Color.WHITE
 	_selected.clear()
+
+# ── Slot highlights ──────────────────────────────────────────────────
+func highlight_slot(index: int) -> void:
+	# Reset all to default
+	for i in _slot_nodes.size():
+		if i not in _selected:                          # don't override selection tint
+			_slot_nodes[i].modulate = Color.WHITE
+	# Highlight the active step
+	if index >= 0 and index < _slot_nodes.size():
+		_slot_nodes[index].modulate = Color(1.0, 1.0, 0.5, 1.0)   # yellow tint
+		_scroll_to_slot(index)
+
+func clear_highlight() -> void:
+	for i in _slot_nodes.size():
+		_slot_nodes[i].modulate = Color.WHITE
+
+func _scroll_to_slot(index: int) -> void:
+	if index < 0 or index >= _slot_nodes.size(): return
+	await get_tree().process_frame
+	var slot := _slot_nodes[index]
+	var slot_left: float = slot.position.x
+	var slot_right: float = slot_left + slot.size.x
+	var visible_left: float = _scroll.scroll_horizontal
+	var visible_right: float = visible_left + _scroll.size.x
+	# Only scroll if the slot is not fully visible
+	if slot_left < visible_left:
+		_scroll.scroll_horizontal = int(slot_left)
+	elif slot_right > visible_right:
+		_scroll.scroll_horizontal = int(slot_right - _scroll.size.x)

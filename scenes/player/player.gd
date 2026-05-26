@@ -4,7 +4,7 @@
 extends Node2D
 
 
-const STEP_SEC  := 0.16   # seconds per tile step (matches JS STEP_MS = 160)
+const STEP_SEC  := 0.30   # seconds per tile step (matches JS STEP_MS = 160)
 const JUMP_HEIGHT := 10.0  # pixels of arc at the peak of a jump
 
 @onready var sprite: AnimatedSprite2D = $Sprite

@@ -84,7 +84,10 @@ func run_program(moves: Array) -> void:
 	_has_executed = true
 	_character_reaction.show_emote("neutral") 
 
-	await ProgramExecutor.execute_program(moves, player, pickup_manager)
+	await ProgramExecutor.execute_program(
+		moves, player, pickup_manager, [],
+		func(i: int): _ui.highlight_slot(i)
+	)
 
 	if pickup_manager.get_remaining() == 0:
 		SaveSystem.complete_level(_level_key)
