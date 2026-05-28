@@ -15,14 +15,22 @@ static func execute_program(
 	moves: Array,
 	player: Node,
 	pickups: PickupManager,
-	func1_queue: Array = []
+	func1_queue: Array = [],
+	on_step: Callable = Callable()
 ) -> void:
+	var step_index := 0
 	for move in moves:
+		# Notify which step is about to execute
+		if on_step.is_valid():
+			on_step.call(step_index)
+
 		if move == "func1":
 			for sub_move in func1_queue:
 				await _run_single(sub_move, player, pickups)
 		else:
 			await _run_single(move, player, pickups)
+
+		step_index += 1
 
 	player.play_idle()
 
