@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c1cd1agjlmoep" path="res://assets/ui/buttons/pause-buttons.png" id="5_sobad"]
 [ext_resource type="Texture2D" uid="uid://cfpjlhlfa8ip8" path="res://assets/ui/panels/reaction-panel.png" id="6_l0yli"]
 [ext_resource type="PackedScene" uid="uid://5g8m162t7bhs" path="res://scenes/character_reaction/character_reaction.tscn" id="7_j4eh3"]
+[ext_resource type="Script" uid="uid://yvlmao67kaeb" path="res://scenes/console_panel/console_panel.gd" id="8_sobad"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_labaj"]
 atlas = ExtResource("3_u0x5q")
@@ -79,7 +80,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = -78.0
-offset_right = -5.0
+offset_right = -3.0
 offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -294,3 +295,44 @@ anchor_bottom = 0.5
 offset_left = 23.0
 offset_right = 23.0
 grow_horizontal = 1
+
+[node name="ConsolePanel" type="PanelContainer" parent="." unique_id=690085249]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -107.0
+offset_top = -191.0
+offset_right = -3.0
+offset_bottom = -80.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("8_sobad")
+
+[node name="VBox" type="VBoxContainer" parent="ConsolePanel" unique_id=784499473]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="ConsolePanel/VBox" unique_id=193211619]
+layout_mode = 2
+
+[node name="LblTitle" type="Label" parent="ConsolePanel/VBox/Header" unique_id=971484995]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 6
+text = "Consola"
+
+[node name="BtnToggle" type="Button" parent="ConsolePanel/VBox/Header" unique_id=1050931371]
+layout_mode = 2
+theme_override_font_sizes/font_size = 4
+text = "▼"
+
+[node name="Scroll" type="ScrollContainer" parent="ConsolePanel/VBox" unique_id=759325784]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CodeLines" type="VBoxContainer" parent="ConsolePanel/VBox/Scroll" unique_id=69017914]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 1

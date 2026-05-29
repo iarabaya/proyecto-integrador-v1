@@ -35,6 +35,8 @@ var _selected: Array[int] = []
 @onready var _btn_clear:   Button        = $Panel/Margin/HBox/Buttons/BtnClear
 @onready var _btn_restart: Button        = $Panel/Margin/HBox/Buttons/BtnRestart
 
+# Console panel
+@onready var _console: ConsolePanel = $ConsolePanel
 
 func _ready() -> void:
 	# buttons signals
@@ -95,6 +97,10 @@ func clear_queue() -> void:
 	_queue.clear()
 	_clear_slot_nodes()
 	_update_moves_label()
+	
+# ── Console ──────────────────────────────────────────────────
+func get_console() -> ConsolePanel:
+	return _console
 
 # ── Slot management ──────────────────────────────────────────────────
 
@@ -173,8 +179,8 @@ func _scroll_to_slot(index: int) -> void:
 		_scroll.scroll_horizontal = int(slot_right - _scroll.size.x)
 
 # Slots UI
-func _update_moves_label() -> void:
-	_moves_label.text = "🍎 %d/%d mov" % [_queue.size(), MAX_SLOTS]
-
 func update_pickup_counter(collected: int, total: int) -> void:
-	_pickup_label.text = "📝 %d/%d" % [collected, total]
+	_pickup_label.text = "🍎 %d/%d" % [collected, total]
+
+func _update_moves_label() -> void:
+	_moves_label.text = "📝 %d/%d mov" % [_queue.size(), MAX_SLOTS]

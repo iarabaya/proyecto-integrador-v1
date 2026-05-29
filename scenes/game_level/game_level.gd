@@ -83,22 +83,46 @@ func run_program(moves: Array) -> void:
 		await _restart_state() 
 	
 	_has_executed = true
-	_character_reaction.show_emote("neutral") 
+	_character_reaction.show_emote("neutral")
+	
+	# Build console lines
+	var console: ConsolePanel = _ui.get_console()
+	console.build_from_queue(moves)
+	
+	# Execute with step tracking
+	var step_index := 0
+	var pickup_before := pickup_manager.get_collected()
 
 	await ProgramExecutor.execute_program(
 		moves, player, pickup_manager, [],
-		func(i: int): _ui.highlight_slot(i)
+		func(i: int):
+			_ui.highlight_slot(i)
+			console.highlight_line(i)
+			# Mark the PREVIOUS step's result
+			if i > 0:
+				_mark_step_result(console, i - 1, pickup_before)
+				pickup_before = pickup_manager.get_collected()
 	)
+	
+	# Mark the last step
+	if moves.size() > 0:
+		_mark_step_result(console, moves.size() - 1, pickup_before)
 
-	if pickup_manager.get_remaining() == 0:
+	_ui.clear_highlight()
+
+# Add summary line
+	var remaining := pickup_manager.get_remaining()
+	if remaining == 0:
+		console.add_summary("→ ¡Completado! ✓", Color(0.0, 0.535, 0.0, 1.0))
 		SaveSystem.complete_level(_level_key)
 		_character_reaction.show_emote("boss")
 		_win_overlay.visible = true
 	else:
+		console.add_summary("→ Error: faltan %d frutas ✗" % remaining, Color(1.0, 0.152, 0.152, 1.0))
 		_ui.lock(false)
-	
-	_running = false  # ← always runs now
-	
+
+	_running = false
+
 	if pickup_manager.get_remaining() > 0:
 		await _character_reaction.show_emote_after_current("annoyed")
 
@@ -132,3 +156,10 @@ func _update_pickup_counter() -> void:
 	var collected := pickup_manager.get_collected()
 	var total := collected + pickup_manager.get_remaining()
 	_ui.update_pickup_counter(collected, total)
+
+func _mark_step_result(console: ConsolePanel, index: int, pickup_before: int) -> void:
+	var collected_now := pickup_manager.get_collected()
+	if collected_now > pickup_before:
+		console.mark_line(index, "→ ✓ recogió fruta")
+	else:
+		console.mark_line(index, "")   # no special result, just executed
