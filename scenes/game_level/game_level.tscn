@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://j61t04tbn3iq" path="res://scenes/command_ui/command_ui.tscn" id="3_eok2m"]
 [ext_resource type="PackedScene" uid="uid://bu304ovs2lqfh" path="res://scenes/win_overlay/win_overlay.tscn" id="4_qmkdm"]
 [ext_resource type="PackedScene" uid="uid://myqd7uu6nr7k" path="res://scenes/pause_menu/pause_menu.tscn" id="5_eok2m"]
+[ext_resource type="PackedScene" uid="uid://qfb18lay0llg" path="res://scenes/mission_overlay/mission_overlay.tscn" id="6_qmkdm"]
 
 [node name="GameLevel" type="Node2D" unique_id=1969413610]
 script = ExtResource("1_wvkt4")
@@ -30,3 +31,5 @@ tile_set = ExtResource("2_ut8xk")
 
 [node name="PauseMenu" parent="." unique_id=1378498667 instance=ExtResource("5_eok2m")]
 visible = false
+
+[node name="MissionOverlay" parent="." unique_id=1170779835 instance=ExtResource("6_qmkdm")]

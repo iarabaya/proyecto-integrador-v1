@@ -4,6 +4,7 @@ const PIXEL_FONT = preload("res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf"
 
 signal execute_requested(moves: Array)
 signal restart_requested()
+signal mission_requested()
 
 const MAX_SLOTS := 25
 const SLOT_WIDTH := 50     # ← fixed width per slot 
@@ -48,7 +49,7 @@ func _ready() -> void:
 	_btn_execute.pressed.connect(_on_execute)
 	_btn_clear.pressed.connect(_on_clear)
 	_btn_restart.pressed.connect(_on_restart)
-	_btn_info.pressed.connect(_on_info_pressed)
+	_btn_info.pressed.connect(func(): mission_requested.emit())
 	_update_moves_label()
 	
 func _on_info_pressed() -> void:

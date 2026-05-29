@@ -8,16 +8,21 @@ const TILE := 16
 @onready var floor_layer:      TileMapLayer = $MapRoot/FloorLayer
 @onready var walls_layer:      TileMapLayer = $MapRoot/WallsLayer
 
+# commands and reaction panel
 @onready var _ui:              CanvasLayer  = $CommandUI
 @onready var _character_reaction: CharacterReaction = $CommandUI/ReactionPanel/Reaction
 
+# pause menu ui
 @onready var _btn_pause: TextureButton = $CommandUI/PauseButton
 @onready var _pause_menu: PauseMenu = $PauseMenu
 
-
+# win screen
 @onready var _win_overlay:     CanvasLayer  = $WinOverlay
 @onready var _win_restart_btn: Button       = $WinOverlay/Background/Panel/VBox/BtnRestart
 @onready var _win_next_btn:    Button       = $WinOverlay/Background/Panel/VBox/BtnNext
+
+# mission overlay
+@onready var _mission_overlay: MissionOverlay = $MissionOverlay
 
 var _level_key: String
 var level_data: Dictionary
@@ -64,6 +69,11 @@ func _ready() -> void:
 	grid.z_index = 3
 	map_root.add_child(grid)
 	grid.setup(int(level_data["cols"]), int(level_data["rows"]))
+	
+	# Mission overlay
+	var mission: Dictionary = level_data.get("mission", {})
+	_mission_overlay.setup(mission)
+	_ui.mission_requested.connect(_mission_overlay.toggle)
 
 	_ui.execute_requested.connect(run_program)
 	_ui.restart_requested.connect(restart_level)
@@ -72,8 +82,8 @@ func _ready() -> void:
 	_win_next_btn.pressed.connect(_on_next_level)
 	
 	_character_reaction.show_emote("appear")
-	_update_pickup_counter()      
-
+	_update_pickup_counter()
+		  
 func run_program(moves: Array) -> void:
 	if _running: return
 	_running = true

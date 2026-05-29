@@ -2,6 +2,11 @@
   "version": 1,
   "cols": 16,
   "rows": 12,
+	"mission": {
+	"title": "Nivel 2 - Campo",
+	"goal": "Navega por el campo abierto y recolecta las 3 manzanas.",
+	"concepts": ["Planificación de rutas", "Distancias largas"]
+	},
   "tile": 16,
   "tilesets": ["grass", "fences", "dirt", "hills", "water"],
   "layers": {
