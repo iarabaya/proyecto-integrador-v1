@@ -10,7 +10,6 @@ const TILE := 16
 
 @onready var _ui:              CanvasLayer  = $CommandUI
 @onready var _character_reaction: CharacterReaction = $CommandUI/ReactionPanel/Reaction
-@onready var _pickup_label: Label = $CommandUI/PanelUpperRight/VBox/PickupLabel
 
 @onready var _btn_pause: TextureButton = $CommandUI/PauseButton
 @onready var _pause_menu: PauseMenu = $PauseMenu
@@ -132,4 +131,4 @@ func _on_pickup_collected() -> void:
 func _update_pickup_counter() -> void:
 	var collected := pickup_manager.get_collected()
 	var total := collected + pickup_manager.get_remaining()
-	_pickup_label.text = "🍎 %d/%d" % [collected, total]
+	_ui.update_pickup_counter(collected, total)

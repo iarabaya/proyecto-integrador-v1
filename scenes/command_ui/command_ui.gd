@@ -16,6 +16,12 @@ var _queue: Array[String] = []
 var _slot_nodes: Array[PanelContainer] = []
 var _selected: Array[int] = [] 
 
+# Game info UI
+@onready var _pickup_label: Label  = $PanelUpperRight/VBox/PickupLabel
+@onready var _moves_label:  Label  = $PanelUpperRight/VBox/MovesLabel
+@onready var _btn_info:     Button = $PanelUpperRight/VBox/BtnInfo
+
+# D-pad buttons
 @onready var _btn_up:      TextureButton        = $Panel/Margin/HBox/DPad/BtnUp
 @onready var _btn_down:    TextureButton        = $Panel/Margin/HBox/DPad/BtnDown
 @onready var _btn_left:    TextureButton        = $Panel/Margin/HBox/DPad/BtnLeft
@@ -40,6 +46,12 @@ func _ready() -> void:
 	_btn_execute.pressed.connect(_on_execute)
 	_btn_clear.pressed.connect(_on_clear)
 	_btn_restart.pressed.connect(_on_restart)
+	_btn_info.pressed.connect(_on_info_pressed)
+	_update_moves_label()
+	
+func _on_info_pressed() -> void:
+	# Placeholder for now — will toggle mission overlay later
+	pass
 
 func lock(locked: bool) -> void:
 	for btn in [_btn_up, _btn_down, _btn_left, _btn_right, _btn_jump, _btn_execute]:
@@ -50,7 +62,8 @@ func _enqueue(cmd: String) -> void:
 	_deselect_all()
 	_queue.append(cmd)
 	_add_slot_node(cmd, _queue.size())
-	_scroll_to_end()        
+	_scroll_to_end()
+	_update_moves_label()      
 
 func _on_execute() -> void:
 	if _queue.is_empty(): return
@@ -75,11 +88,13 @@ func _on_clear() -> void:
 			_slot_nodes[i].queue_free()
 			_slot_nodes.remove_at(i)
 		_selected.clear()
+	_update_moves_label()
 
 func clear_queue() -> void:
 	_selected.clear()
 	_queue.clear()
 	_clear_slot_nodes()
+	_update_moves_label()
 
 # ── Slot management ──────────────────────────────────────────────────
 
@@ -156,3 +171,10 @@ func _scroll_to_slot(index: int) -> void:
 		_scroll.scroll_horizontal = int(slot_left)
 	elif slot_right > visible_right:
 		_scroll.scroll_horizontal = int(slot_right - _scroll.size.x)
+
+# Slots UI
+func _update_moves_label() -> void:
+	_moves_label.text = "🍎 %d/%d mov" % [_queue.size(), MAX_SLOTS]
+
+func update_pickup_counter(collected: int, total: int) -> void:
+	_pickup_label.text = "📝 %d/%d" % [collected, total]
