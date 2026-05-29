@@ -10,9 +10,11 @@ const TILE := 16
 
 @onready var _ui:              CanvasLayer  = $CommandUI
 @onready var _character_reaction: CharacterReaction = $CommandUI/ReactionPanel/Reaction
-@onready var _pickup_label: Label = $CommandUI/ReactionPanel/PickupLabel
+@onready var _pickup_label: Label = $CommandUI/PanelUpperRight/VBox/PickupLabel
 
-@onready var _btn_menu: TextureButton = $CommandUI/MenuButton
+@onready var _btn_pause: TextureButton = $CommandUI/PauseButton
+@onready var _pause_menu: PauseMenu = $PauseMenu
+
 
 @onready var _win_overlay:     CanvasLayer  = $WinOverlay
 @onready var _win_restart_btn: Button       = $WinOverlay/Background/Panel/VBox/BtnRestart
@@ -66,7 +68,7 @@ func _ready() -> void:
 
 	_ui.execute_requested.connect(run_program)
 	_ui.restart_requested.connect(restart_level)
-	_btn_menu.pressed.connect(_on_menu_pressed)
+	_btn_pause.pressed.connect(_pause_menu.open)
 	_win_restart_btn.pressed.connect(restart_level)
 	_win_next_btn.pressed.connect(_on_next_level)
 	
@@ -123,18 +125,11 @@ func _on_next_level() -> void:
 	if next.is_empty(): return
 	SaveSystem.launch_level(next["key"])
 
-func _on_menu_pressed() -> void:
-	get_tree().change_scene_to_file.call_deferred("res://scenes/main_menu/main_menu.tscn")
-
 func _on_pickup_collected() -> void:
 	_character_reaction.show_emote("heart")
 	_update_pickup_counter()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		get_tree().change_scene_to_file.call_deferred("res://scenes/level_select/level_select.tscn")
-
 func _update_pickup_counter() -> void:
 	var collected := pickup_manager.get_collected()
 	var total := collected + pickup_manager.get_remaining()
-	_pickup_label.text = "%d/%d" % [collected, total]
+	_pickup_label.text = "🍎 %d/%d" % [collected, total]

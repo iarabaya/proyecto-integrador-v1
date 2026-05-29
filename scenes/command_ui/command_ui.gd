@@ -29,8 +29,6 @@ var _selected: Array[int] = []
 @onready var _btn_clear:   Button        = $Panel/Margin/HBox/Buttons/BtnClear
 @onready var _btn_restart: Button        = $Panel/Margin/HBox/Buttons/BtnRestart
 
-@onready var _btn_levels: Button = $PanelMenu/BtnLevels
-
 
 func _ready() -> void:
 	# buttons signals
@@ -42,8 +40,6 @@ func _ready() -> void:
 	_btn_execute.pressed.connect(_on_execute)
 	_btn_clear.pressed.connect(_on_clear)
 	_btn_restart.pressed.connect(_on_restart)
-	_btn_levels.pressed.connect(func(): get_tree().change_scene_to_file.call_deferred("res://scenes/level_select/level_select.tscn"))
-
 
 func lock(locked: bool) -> void:
 	for btn in [_btn_up, _btn_down, _btn_left, _btn_right, _btn_jump, _btn_execute]:

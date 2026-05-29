@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://myqd7uu6nr7k"]
+
+[ext_resource type="Script" uid="uid://bw05xcbn35tc0" path="res://scenes/pause_menu/pause_menu.gd" id="1_5bgjm"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=1378498667]
+process_mode = 3
+layer = 20
+script = ExtResource("1_5bgjm")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1013381422]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="Background" unique_id=564305143]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -65.0
+offset_right = 70.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Background/Panel" unique_id=1733023962]
+layout_mode = 2
+alignment = 1
+
+[node name="LblTitle" type="Label" parent="Background/Panel/VBox" unique_id=1654978112]
+layout_mode = 2
+text = "Pausa"
+horizontal_alignment = 1
+
+[node name="BtnContinue" type="Button" parent="Background/Panel/VBox" unique_id=419120612]
+layout_mode = 2
+text = "Continuar"
+
+[node name="BtnLevels" type="Button" parent="Background/Panel/VBox" unique_id=695492032]
+layout_mode = 2
+text = "Niveles"
+
+[node name="BtnSettings" type="Button" parent="Background/Panel/VBox" unique_id=1084660020]
+layout_mode = 2
+text = "Configuración"
+
+[node name="BtnMainMenu" type="Button" parent="Background/Panel/VBox" unique_id=973165697]
+layout_mode = 2
+text = "Volver al menú"
