@@ -48,16 +48,23 @@ func build_from_queue(queue: Array) -> void:
 	for i in queue.size():
 		var cmd: String = queue[i]
 		var text := "%d. %s" % [i + 1, CMD_TEXT.get(cmd, cmd)]
-		var lbl := _make_label(text, Color.WHITE)
+		var lbl := _make_label(text, Color(0.4, 0.6, 1.0))
 		_code_lines.add_child(lbl)
 		_line_labels.append(lbl)
 
 ## Highlight the current step during execution
 func highlight_line(index: int) -> void:
+	var default_color := Color(0.4, 0.6, 1.0)   # same blue as build_from_queue
 	for i in _line_labels.size():
-		_line_labels[i].modulate = Color.DARK_BLUE
+		# Restore original color (but keep green/red if already marked)
+		if "✓" in _line_labels[i].text:
+			_line_labels[i].add_theme_color_override("font_color", Color(0.0, 1.0, 0.0, 1.0))
+		elif "✗" in _line_labels[i].text:
+			_line_labels[i].add_theme_color_override("font_color", Color(1.0, 0.5, 0.5))
+		else:
+			_line_labels[i].add_theme_color_override("font_color", default_color)
 	if index >= 0 and index < _line_labels.size():
-		_line_labels[index].modulate = Color.YELLOW
+		_line_labels[index].add_theme_color_override("font_color", Color.YELLOW)
 		_scroll_to_line(index)
 
 ## Mark a line with a result after it executes
@@ -66,7 +73,7 @@ func mark_line(index: int, result: String) -> void:
 	var base_text: String = _line_labels[index].text
 	_line_labels[index].text = base_text + " " + result
 	if "✗" in result:
-		_line_labels[index].add_theme_color_override("font_color", Color(1.0, 0.5, 0.5))
+		_line_labels[index].add_theme_color_override("font_color", Color(1.0, 0.5, 0.5, 1.0))
 	elif "✓" in result:
 		_line_labels[index].add_theme_color_override("font_color", Color(0.5, 1.0, 0.5))
 
@@ -77,6 +84,18 @@ func add_summary(text: String, color: Color = Color.WHITE) -> void:
 	_line_labels.append(lbl)
 	await get_tree().process_frame
 	_scroll.scroll_vertical = int(_scroll.get_v_scroll_bar().max_value)
+
+## Clear highlighted lines
+func clear_highlight() -> void:
+	var default_color := Color(0.4, 0.6, 1.0)
+	for i in _line_labels.size():
+		if "✓" in _line_labels[i].text:
+			_line_labels[i].add_theme_color_override("font_color", Color(0.5, 1.0, 0.5))
+		elif "✗" in _line_labels[i].text:
+			_line_labels[i].add_theme_color_override("font_color", Color(1.0, 0.5, 0.5))
+		else:
+			_line_labels[i].add_theme_color_override("font_color", default_color)
+
 
 ## Clear all lines
 func clear_lines() -> void:
@@ -93,7 +112,7 @@ func _make_label(text: String, color: Color) -> Label:
 	lbl.add_theme_font_override("font", PIXEL_FONT)
 	lbl.add_theme_font_size_override("font_size", 6)
 	lbl.add_theme_color_override("font_color", color)
-	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
+	lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	return lbl
 

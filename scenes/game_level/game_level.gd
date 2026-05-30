@@ -99,36 +99,34 @@ func run_program(moves: Array) -> void:
 	var console: ConsolePanel = _ui.get_console()
 	console.build_from_queue(moves)
 	
-	# Execute with step tracking
-	var step_index := 0
-	var pickup_before := pickup_manager.get_collected()
+	var state := [pickup_manager.get_collected(), -1]  # [pickup_before, last_index]
 
 	await ProgramExecutor.execute_program(
 		moves, player, pickup_manager, [],
 		func(i: int):
 			_ui.highlight_slot(i)
 			console.highlight_line(i)
-			# Mark the PREVIOUS step's result
-			if i > 0:
-				_mark_step_result(console, i - 1, pickup_before)
-				pickup_before = pickup_manager.get_collected()
+			if state[1] >= 0:
+				_mark_step_result(console, state[1], state[0])
+				state[0] = pickup_manager.get_collected()
+			state[1] = i
 	)
 	
 	# Mark the last step
 	if moves.size() > 0:
-		_mark_step_result(console, moves.size() - 1, pickup_before)
+		_mark_step_result(console, state[1], state[0])
 
 	_ui.clear_highlight()
+	console.clear_highlight()
 
-# Add summary line
-	var remaining := pickup_manager.get_remaining()
-	if remaining == 0:
+	# Add summary line
+	if pickup_manager.get_remaining() == 0:
 		console.add_summary("→ ¡Completado! ✓", Color(0.0, 0.535, 0.0, 1.0))
 		SaveSystem.complete_level(_level_key)
 		_character_reaction.show_emote("boss")
 		_win_overlay.visible = true
 	else:
-		console.add_summary("→ Error: faltan %d frutas ✗" % remaining, Color(1.0, 0.152, 0.152, 1.0))
+		console.add_summary("→ Error: faltan %d frutas ✗" % pickup_manager.get_remaining(), Color(1.0, 0.152, 0.152, 1.0))
 		_ui.lock(false)
 
 	_running = false
@@ -170,6 +168,6 @@ func _update_pickup_counter() -> void:
 func _mark_step_result(console: ConsolePanel, index: int, pickup_before: int) -> void:
 	var collected_now := pickup_manager.get_collected()
 	if collected_now > pickup_before:
-		console.mark_line(index, "→ ✓ recogió fruta")
+		console.mark_line(index, "→ fruta ✓")
 	else:
-		console.mark_line(index, "")   # no special result, just executed
+		console.mark_line(index, "")
