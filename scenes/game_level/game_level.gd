@@ -8,15 +8,46 @@ const TILE := 16
 @onready var floor_layer:      TileMapLayer = $MapRoot/FloorLayer
 @onready var walls_layer:      TileMapLayer = $MapRoot/WallsLayer
 
+# commands and reaction panel
 @onready var _ui:              CanvasLayer  = $CommandUI
 @onready var _character_reaction: CharacterReaction = $CommandUI/ReactionPanel/Reaction
-@onready var _pickup_label: Label = $CommandUI/ReactionPanel/PickupLabel
 
-@onready var _btn_menu: TextureButton = $CommandUI/MenuButton
+# pause menu ui
+@onready var _btn_pause: TextureButton = $CommandUI/PauseButton
+@onready var _pause_menu: PauseMenu = $PauseMenu
 
+# win screen
 @onready var _win_overlay:     CanvasLayer  = $WinOverlay
 @onready var _win_restart_btn: Button       = $WinOverlay/Background/Panel/VBox/BtnRestart
 @onready var _win_next_btn:    Button       = $WinOverlay/Background/Panel/VBox/BtnNext
+
+# mission overlay
+@onready var _mission_overlay: MissionOverlay = $MissionOverlay
+
+# ── Sound effects ────────────────────────────────────────────────────
+@onready var _sfx_pickup:      AudioStreamPlayer = $SfxPickup
+@onready var _sfx_step:        AudioStreamPlayer = $SfxStep
+@onready var _sfx_win:         AudioStreamPlayer = $SfxWin
+@onready var _sfx_fail:        AudioStreamPlayer = $SfxFail
+@onready var _sfx_level_start: AudioStreamPlayer = $SfxLevelStart
+@onready var _sfx_level_restart: AudioStreamPlayer = $SfxLevelRestart
+@onready var _sfx_wall_hit:    AudioStreamPlayer = $SfxWallHit
+@onready var _music:           AudioStreamPlayer = $MusicPlayer
+
+
+var _step_sounds: Array[AudioStream] = [
+	preload("res://assets/sounds/footstep_grass_000.ogg"),
+	preload("res://assets/sounds/footstep_grass_001.ogg"),
+	preload("res://assets/sounds/footstep_grass_002.ogg"),
+	preload("res://assets/sounds/footstep_grass_003.ogg"),
+	preload("res://assets/sounds/footstep_grass_004.ogg")]
+
+var _wall_sounds: Array[AudioStream] = [
+	preload("res://assets/sounds/impactPlank_000.ogg"),
+	preload("res://assets/sounds/impactPlank_001.ogg"),
+	preload("res://assets/sounds/impactPlank_002.ogg"),
+	preload("res://assets/sounds/impactPlank_003.ogg"),
+	preload("res://assets/sounds/impactPlank_004.ogg")]
 
 var _level_key: String
 var level_data: Dictionary
@@ -63,16 +94,33 @@ func _ready() -> void:
 	grid.z_index = 3
 	map_root.add_child(grid)
 	grid.setup(int(level_data["cols"]), int(level_data["rows"]))
+	
+	# Mission overlay
+	var mission: Dictionary = level_data.get("mission", {})
+	_mission_overlay.setup(mission)
+	_ui.mission_requested.connect(_mission_overlay.toggle)
 
 	_ui.execute_requested.connect(run_program)
 	_ui.restart_requested.connect(restart_level)
-	_btn_menu.pressed.connect(_on_menu_pressed)
+	_btn_pause.pressed.connect(_pause_menu.open)
 	_win_restart_btn.pressed.connect(restart_level)
 	_win_next_btn.pressed.connect(_on_next_level)
 	
 	_character_reaction.show_emote("appear")
-	_update_pickup_counter()      
-
+	_update_pickup_counter()
+	player_model.stepped.connect(_play_step)
+	player_model.blocked.connect(_play_wall_hit)
+	
+	_sfx_level_start.play()
+	
+	for btn in [_btn_pause, _win_restart_btn, _win_next_btn]:
+		btn.pressed.connect(AudioManager.play_click)
+	
+	_music.stream = preload("res://assets/sounds/songs/section-farm-music.mp3")
+	_music.volume_db = -10.0     # quieter so it doesn't overpower SFX
+	_music.play()
+	
+		  
 func run_program(moves: Array) -> void:
 	if _running: return
 	_running = true
@@ -82,22 +130,45 @@ func run_program(moves: Array) -> void:
 		await _restart_state() 
 	
 	_has_executed = true
-	_character_reaction.show_emote("neutral") 
+	_character_reaction.show_emote("neutral")
+	
+	# Build console lines
+	var console: ConsolePanel = _ui.get_console()
+	console.build_from_queue(moves)
+	
+	var state := [pickup_manager.get_collected(), -1]  # [pickup_before, last_index]
 
 	await ProgramExecutor.execute_program(
 		moves, player, pickup_manager, [],
-		func(i: int): _ui.highlight_slot(i)
+		func(i: int):
+			_ui.highlight_slot(i)
+			console.highlight_line(i)
+			if state[1] >= 0:
+				_mark_step_result(console, state[1], state[0])
+				state[0] = pickup_manager.get_collected()
+			state[1] = i
 	)
+	
+	# Mark the last step
+	if moves.size() > 0:
+		_mark_step_result(console, state[1], state[0])
+	_ui.clear_highlight()
+	console.clear_highlight()
 
+	# Add summary line
 	if pickup_manager.get_remaining() == 0:
+		console.add_summary("→ ¡Completado! ✓", Color(0.0, 0.535, 0.0, 1.0))
 		SaveSystem.complete_level(_level_key)
 		_character_reaction.show_emote("boss")
+		_sfx_win.play()  
 		_win_overlay.visible = true
 	else:
+		console.add_summary("→ Error: faltan %d frutas ✗" % pickup_manager.get_remaining(), Color(1.0, 0.152, 0.152, 1.0))
+		_sfx_fail.play()
 		_ui.lock(false)
-	
-	_running = false  # ← always runs now
-	
+
+	_running = false
+
 	if pickup_manager.get_remaining() > 0:
 		await _character_reaction.show_emote_after_current("annoyed")
 
@@ -108,6 +179,7 @@ func _restart_state() -> void:
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 	player.setup(player_model)
 	_update_pickup_counter()
+	_sfx_level_restart.play()
 
 func restart_level() -> void:
 	_win_overlay.visible = false
@@ -123,18 +195,31 @@ func _on_next_level() -> void:
 	if next.is_empty(): return
 	SaveSystem.launch_level(next["key"])
 
-func _on_menu_pressed() -> void:
-	get_tree().change_scene_to_file.call_deferred("res://scenes/main_menu/main_menu.tscn")
-
 func _on_pickup_collected() -> void:
 	_character_reaction.show_emote("heart")
 	_update_pickup_counter()
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		get_tree().change_scene_to_file.call_deferred("res://scenes/level_select/level_select.tscn")
+	_sfx_pickup.play()
 
 func _update_pickup_counter() -> void:
 	var collected := pickup_manager.get_collected()
 	var total := collected + pickup_manager.get_remaining()
-	_pickup_label.text = "%d/%d" % [collected, total]
+	_ui.update_pickup_counter(collected, total)
+
+func _mark_step_result(console: ConsolePanel, index: int, pickup_before: int) -> void:
+	var collected_now := pickup_manager.get_collected()
+	if collected_now > pickup_before:
+		console.mark_line(index, "→ fruta ✓")
+	else:
+		console.mark_line(index, "")
+
+# ── Sound effects helper methods ────────────────────────────────────────────────────
+
+func _play_step() -> void:
+	_sfx_step.stream = _step_sounds.pick_random()
+	_sfx_step.pitch_scale = randf_range(0.95, 1.05)
+	_sfx_step.play()
+
+func _play_wall_hit() -> void:
+	_sfx_wall_hit.stream = _wall_sounds.pick_random()
+	_sfx_wall_hit.pitch_scale = randf_range(0.95, 1.05)
+	_sfx_wall_hit.play()

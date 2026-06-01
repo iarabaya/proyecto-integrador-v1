@@ -4,6 +4,7 @@ const PIXEL_FONT = preload("res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf"
 
 signal execute_requested(moves: Array)
 signal restart_requested()
+signal mission_requested()
 
 const MAX_SLOTS := 25
 const SLOT_WIDTH := 50     # ← fixed width per slot 
@@ -16,6 +17,20 @@ var _queue: Array[String] = []
 var _slot_nodes: Array[PanelContainer] = []
 var _selected: Array[int] = [] 
 
+#var _enqueue_sounds: Array[AudioStream] = [
+	#preload("res://assets/sounds/blup_1.wav"),
+	#preload("res://assets/sounds/blup_2.wav"),
+#]
+
+#@onready var _sfx_enqueue: AudioStreamPlayer = $SfxEnqueue
+#@onready var _sfx_click:   AudioStreamPlayer = $SfxClick
+
+# Game info UI
+@onready var _pickup_label: Label  = $PanelUpperRight/VBox/PickupLabel
+@onready var _moves_label:  Label  = $PanelUpperRight/VBox/MovesLabel
+@onready var _btn_info:     Button = $PanelUpperRight/VBox/BtnInfo
+
+# D-pad buttons
 @onready var _btn_up:      TextureButton        = $Panel/Margin/HBox/DPad/BtnUp
 @onready var _btn_down:    TextureButton        = $Panel/Margin/HBox/DPad/BtnDown
 @onready var _btn_left:    TextureButton        = $Panel/Margin/HBox/DPad/BtnLeft
@@ -29,8 +44,8 @@ var _selected: Array[int] = []
 @onready var _btn_clear:   Button        = $Panel/Margin/HBox/Buttons/BtnClear
 @onready var _btn_restart: Button        = $Panel/Margin/HBox/Buttons/BtnRestart
 
-@onready var _btn_levels: Button = $PanelMenu/BtnLevels
-
+# Console panel
+@onready var _console: ConsolePanel = $ConsolePanel
 
 func _ready() -> void:
 	# buttons signals
@@ -39,11 +54,18 @@ func _ready() -> void:
 	_btn_left.pressed.connect(func(): _enqueue("left"))
 	_btn_right.pressed.connect(func(): _enqueue("right"))
 	_btn_jump.pressed.connect(func(): _enqueue("jump"))
-	_btn_execute.pressed.connect(_on_execute)
-	_btn_clear.pressed.connect(_on_clear)
-	_btn_restart.pressed.connect(_on_restart)
-	_btn_levels.pressed.connect(func(): get_tree().change_scene_to_file.call_deferred("res://scenes/level_select/level_select.tscn"))
-
+	_btn_execute.pressed.connect(func(): _on_execute())
+	_btn_clear.pressed.connect(func(): _on_clear())
+	_btn_restart.pressed.connect(func(): restart_requested.emit())
+	_btn_info.pressed.connect(func(): mission_requested.emit())
+	_update_moves_label()
+	
+	for btn in [_btn_execute, _btn_clear, _btn_restart, _btn_info]:
+		btn.pressed.connect(AudioManager.play_click)
+	
+func _on_info_pressed() -> void:
+	# Placeholder for now — will toggle mission overlay later
+	pass
 
 func lock(locked: bool) -> void:
 	for btn in [_btn_up, _btn_down, _btn_left, _btn_right, _btn_jump, _btn_execute]:
@@ -54,7 +76,13 @@ func _enqueue(cmd: String) -> void:
 	_deselect_all()
 	_queue.append(cmd)
 	_add_slot_node(cmd, _queue.size())
-	_scroll_to_end()        
+	_scroll_to_end()
+	_update_moves_label()
+	# Play enqueue sound
+	#_sfx_enqueue.stream = _enqueue_sounds.pick_random()
+	#_sfx_enqueue.play()
+	#_sfx_click.play()
+	AudioManager.play_click()
 
 func _on_execute() -> void:
 	if _queue.is_empty(): return
@@ -79,11 +107,17 @@ func _on_clear() -> void:
 			_slot_nodes[i].queue_free()
 			_slot_nodes.remove_at(i)
 		_selected.clear()
+	_update_moves_label()
 
 func clear_queue() -> void:
 	_selected.clear()
 	_queue.clear()
 	_clear_slot_nodes()
+	_update_moves_label()
+	
+# ── Console ──────────────────────────────────────────────────
+func get_console() -> ConsolePanel:
+	return _console
 
 # ── Slot management ──────────────────────────────────────────────────
 
@@ -160,3 +194,10 @@ func _scroll_to_slot(index: int) -> void:
 		_scroll.scroll_horizontal = int(slot_left)
 	elif slot_right > visible_right:
 		_scroll.scroll_horizontal = int(slot_right - _scroll.size.x)
+
+# Slots UI
+func update_pickup_counter(collected: int, total: int) -> void:
+	_pickup_label.text = "🍎 %d/%d" % [collected, total]
+
+func _update_moves_label() -> void:
+	_moves_label.text = "📝 %d/%d mov" % [_queue.size(), MAX_SLOTS]

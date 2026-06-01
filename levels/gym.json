@@ -1,25 +1,30 @@
 {
-  "version": 1,
-  "cols": 16,
-  "rows": 12,
-  "tile": 16,
-  "tilesets": [
-	"grass",
-	"fences",
-	"dirt",
-	"hills",
-    "water"
-  ],
-  "layers": {
-	"floor": [
-	  1,
-	  2,
-	  2,
-	  2,
-	  2,
-	  2,
-	  2,
-	  2,
+"version": 1,
+"cols": 16,
+"rows": 12,
+"mission": {
+"title": "Nivel 1 - Gimnasio",
+"goal": "Recolecta todas las manzanas usando comandos de movimiento.",
+"concepts": ["Secuencias", "Movimiento en 4 direcciones"]
+  },
+"tile": 16,
+"tilesets": [
+"grass",
+"fences",
+"dirt",
+"hills",
+"water"
+],
+"layers": {
+"floor": [
+  1,
+  2,
+  2,
+  2,
+  2,
+  2,
+  2,
+  2,
 	  2,
 	  2,
 	  2,

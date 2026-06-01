@@ -30,6 +30,7 @@ static func load_level(key: String, floor_layer: TileMapLayer, walls_layer: Tile
 		"solid": solid,
 		"spawn": data["spawn"],
 		"objects": data["objects"],
+		"mission": data.get("mission", {})
 	}
 
 

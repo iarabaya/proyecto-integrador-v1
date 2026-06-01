@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://qfb18lay0llg"]
+
+[ext_resource type="Script" uid="uid://cth0oqu21rwlv" path="res://scenes/mission_overlay/mission_overlay.gd" id="1_lyspt"]
+
+[node name="MissionOverlay" type="CanvasLayer" unique_id=1170779835]
+layer = 5
+script = ExtResource("1_lyspt")
+
+[node name="Background" type="ColorRect" parent="." unique_id=791071715]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Panel" type="PanelContainer" parent="Background" unique_id=2024244669]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -85.0
+offset_top = -71.0
+offset_right = 85.0
+offset_bottom = 71.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Background/Panel" unique_id=1324547618]
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Background/Panel/Margin" unique_id=578515772]
+layout_mode = 2
+
+[node name="LblTitle" type="Label" parent="Background/Panel/Margin/VBox" unique_id=1363748723]
+layout_mode = 2
+
+[node name="Sep" type="HSeparator" parent="Background/Panel/Margin/VBox" unique_id=339772302]
+layout_mode = 2
+
+[node name="LblGoal" type="Label" parent="Background/Panel/Margin/VBox" unique_id=940753617]
+layout_mode = 2
+
+[node name="LblConcepts" type="Label" parent="Background/Panel/Margin/VBox" unique_id=1603185752]
+layout_mode = 2
+
+[node name="BtnClose" type="Button" parent="Background/Panel/Margin/VBox" unique_id=1890561886]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Cerrar"

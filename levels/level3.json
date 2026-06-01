@@ -2,6 +2,11 @@
   "version": 1,
   "cols": 16,
   "rows": 12,
+	"mission": {
+	  "title": "Nivel 3 - Huerto",
+	  "goal": "Atraviesa el laberinto para encontrar las 4 manzanas escondidas.",
+	  "concepts": ["Laberintos", "Rutas con obstáculos"]
+	},
   "tile": 16,
   "tilesets": ["grass", "fences", "dirt", "hills", "water"],
   "layers": {

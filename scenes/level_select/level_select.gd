@@ -72,6 +72,7 @@ func _build_card(lvl: Dictionary) -> void:
 		btn.anchor_bottom = 1.0
 		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		panel.add_child(btn)
+		btn.pressed.connect(AudioManager.play_click)
 		btn.pressed.connect(func(): _launch(lvl["key"]))
 
 func _launch(key: String) -> void:
