@@ -4,6 +4,8 @@
 class_name PlayerModel
 extends RefCounted
 
+signal stepped()
+signal blocked()
 
 const DIRS: Dictionary = {
 	"up":    Vector2i(0, -1),
@@ -50,11 +52,13 @@ func try_move(dir: String) -> Dictionary:
 	if not can_enter(nx, ny):
 		# Blocked — update facing but stay in place
 		facing = dir
+		blocked.emit()
 		return {success=false, tx=tx, ty=ty, facing=facing}
 
 	tx = nx
 	ty = ny
 	facing = dir
+	stepped.emit()
 	return {success=true, tx=tx, ty=ty, facing=facing}
 
 

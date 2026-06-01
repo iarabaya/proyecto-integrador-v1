@@ -12,6 +12,9 @@ func _ready() -> void:
 	_btn_levels.pressed.connect(_go_levels)
 	_btn_settings.pressed.connect(_go_settings)
 	_btn_main_menu.pressed.connect(_go_main_menu)
+	
+	for btn in [_btn_continue, _btn_levels, _btn_settings, _btn_main_menu]:
+		btn.pressed.connect(AudioManager.play_click)
 
 func open() -> void:
 	visible = true

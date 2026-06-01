@@ -6,6 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://bu304ovs2lqfh" path="res://scenes/win_overlay/win_overlay.tscn" id="4_qmkdm"]
 [ext_resource type="PackedScene" uid="uid://myqd7uu6nr7k" path="res://scenes/pause_menu/pause_menu.tscn" id="5_eok2m"]
 [ext_resource type="PackedScene" uid="uid://qfb18lay0llg" path="res://scenes/mission_overlay/mission_overlay.tscn" id="6_qmkdm"]
+[ext_resource type="AudioStream" uid="uid://b6at085fkvcf0" path="res://assets/sounds/blup_1.wav" id="7_hyrjf"]
+[ext_resource type="AudioStream" uid="uid://cx7cr4nqn7hys" path="res://assets/sounds/win.wav" id="8_obfbj"]
+[ext_resource type="AudioStream" uid="uid://djoo8v70ypx1m" path="res://assets/sounds/fail.mp3" id="9_q20v4"]
+[ext_resource type="AudioStream" uid="uid://ejc3icdn2f8w" path="res://assets/sounds/level-start.ogg" id="10_c88ju"]
+[ext_resource type="AudioStream" uid="uid://diuwu3cwvguwv" path="res://assets/sounds/restart.ogg" id="11_s4oau"]
 
 [node name="GameLevel" type="Node2D" unique_id=1969413610]
 script = ExtResource("1_wvkt4")
@@ -33,3 +38,25 @@ tile_set = ExtResource("2_ut8xk")
 visible = false
 
 [node name="MissionOverlay" parent="." unique_id=1170779835 instance=ExtResource("6_qmkdm")]
+visible = false
+
+[node name="SfxPickup" type="AudioStreamPlayer" parent="." unique_id=1171829229]
+stream = ExtResource("7_hyrjf")
+
+[node name="SfxStep" type="AudioStreamPlayer" parent="." unique_id=1523614482]
+
+[node name="SfxWin" type="AudioStreamPlayer" parent="." unique_id=1249746229]
+stream = ExtResource("8_obfbj")
+
+[node name="SfxFail" type="AudioStreamPlayer" parent="." unique_id=1287541692]
+stream = ExtResource("9_q20v4")
+
+[node name="SfxLevelStart" type="AudioStreamPlayer" parent="." unique_id=1058991761]
+stream = ExtResource("10_c88ju")
+
+[node name="SfxLevelRestart" type="AudioStreamPlayer" parent="." unique_id=330337822]
+stream = ExtResource("11_s4oau")
+
+[node name="SfxWallHit" type="AudioStreamPlayer" parent="." unique_id=399622968]
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1696080064]

@@ -8,7 +8,8 @@ extends CanvasLayer
 
 func _ready() -> void:
 	visible = false
-	_btn_close.pressed.connect(close)
+	_btn_close.pressed.connect(func(): AudioManager.play_click(); close())
+	
 
 func setup(mission: Dictionary) -> void:
 	_lbl_title.text = mission.get("title", "Misión")

@@ -2,8 +2,8 @@ extends Control
 
 const PIXEL_FONT = preload("res://assets/fonts/pixelFont-7-8x14-sproutLands.ttf")
 
-@onready var _btn_jugar:    Button = $BG/Center/Panel/Card/BtnPlay
-@onready var _btn_niveles:  Button = $BG/Center/Panel/Card/BtnLevels
+@onready var _btn_play:    Button = $BG/Center/Panel/Card/BtnPlay
+@onready var _btn_levels:  Button = $BG/Center/Panel/Card/BtnLevels
 @onready var _btn_settings: Button = $BG/Center/Panel/Card/BtnSettings
 @onready var _btn_credits:  Button = $BG/Center/Panel/Card/BtnCredits
 @onready var _title:        Label  = $BG/Center/Panel/Card/Title
@@ -23,10 +23,13 @@ func _ready() -> void:
 	_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	# Buttons
-	_btn_jugar.pressed.connect(_on_jugar)
-	_btn_niveles.pressed.connect(_on_niveles)
+	_btn_play.pressed.connect(_on_jugar)
+	_btn_levels.pressed.connect(_on_niveles)
 	_btn_settings.pressed.connect(_on_settings)
 	_btn_credits.pressed.connect(_on_credits)
+	
+	for btn in [_btn_play, _btn_levels, _btn_settings, _btn_credits]:
+		btn.pressed.connect(AudioManager.play_click)
 
 func _on_jugar() -> void:
 	if SaveSystem.has_save():

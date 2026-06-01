@@ -17,6 +17,14 @@ var _queue: Array[String] = []
 var _slot_nodes: Array[PanelContainer] = []
 var _selected: Array[int] = [] 
 
+#var _enqueue_sounds: Array[AudioStream] = [
+	#preload("res://assets/sounds/blup_1.wav"),
+	#preload("res://assets/sounds/blup_2.wav"),
+#]
+
+#@onready var _sfx_enqueue: AudioStreamPlayer = $SfxEnqueue
+#@onready var _sfx_click:   AudioStreamPlayer = $SfxClick
+
 # Game info UI
 @onready var _pickup_label: Label  = $PanelUpperRight/VBox/PickupLabel
 @onready var _moves_label:  Label  = $PanelUpperRight/VBox/MovesLabel
@@ -46,11 +54,14 @@ func _ready() -> void:
 	_btn_left.pressed.connect(func(): _enqueue("left"))
 	_btn_right.pressed.connect(func(): _enqueue("right"))
 	_btn_jump.pressed.connect(func(): _enqueue("jump"))
-	_btn_execute.pressed.connect(_on_execute)
-	_btn_clear.pressed.connect(_on_clear)
-	_btn_restart.pressed.connect(_on_restart)
+	_btn_execute.pressed.connect(func(): _on_execute())
+	_btn_clear.pressed.connect(func(): _on_clear())
+	_btn_restart.pressed.connect(func(): restart_requested.emit())
 	_btn_info.pressed.connect(func(): mission_requested.emit())
 	_update_moves_label()
+	
+	for btn in [_btn_execute, _btn_clear, _btn_restart, _btn_info]:
+		btn.pressed.connect(AudioManager.play_click)
 	
 func _on_info_pressed() -> void:
 	# Placeholder for now — will toggle mission overlay later
@@ -66,7 +77,12 @@ func _enqueue(cmd: String) -> void:
 	_queue.append(cmd)
 	_add_slot_node(cmd, _queue.size())
 	_scroll_to_end()
-	_update_moves_label()      
+	_update_moves_label()
+	# Play enqueue sound
+	#_sfx_enqueue.stream = _enqueue_sounds.pick_random()
+	#_sfx_enqueue.play()
+	#_sfx_click.play()
+	AudioManager.play_click()
 
 func _on_execute() -> void:
 	if _queue.is_empty(): return

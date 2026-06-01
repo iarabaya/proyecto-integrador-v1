@@ -24,6 +24,31 @@ const TILE := 16
 # mission overlay
 @onready var _mission_overlay: MissionOverlay = $MissionOverlay
 
+# ── Sound effects ────────────────────────────────────────────────────
+@onready var _sfx_pickup:      AudioStreamPlayer = $SfxPickup
+@onready var _sfx_step:        AudioStreamPlayer = $SfxStep
+@onready var _sfx_win:         AudioStreamPlayer = $SfxWin
+@onready var _sfx_fail:        AudioStreamPlayer = $SfxFail
+@onready var _sfx_level_start: AudioStreamPlayer = $SfxLevelStart
+@onready var _sfx_level_restart: AudioStreamPlayer = $SfxLevelRestart
+@onready var _sfx_wall_hit:    AudioStreamPlayer = $SfxWallHit
+@onready var _music:           AudioStreamPlayer = $MusicPlayer
+
+
+var _step_sounds: Array[AudioStream] = [
+	preload("res://assets/sounds/footstep_grass_000.ogg"),
+	preload("res://assets/sounds/footstep_grass_001.ogg"),
+	preload("res://assets/sounds/footstep_grass_002.ogg"),
+	preload("res://assets/sounds/footstep_grass_003.ogg"),
+	preload("res://assets/sounds/footstep_grass_004.ogg")]
+
+var _wall_sounds: Array[AudioStream] = [
+	preload("res://assets/sounds/impactPlank_000.ogg"),
+	preload("res://assets/sounds/impactPlank_001.ogg"),
+	preload("res://assets/sounds/impactPlank_002.ogg"),
+	preload("res://assets/sounds/impactPlank_003.ogg"),
+	preload("res://assets/sounds/impactPlank_004.ogg")]
+
 var _level_key: String
 var level_data: Dictionary
 var player_model: PlayerModel
@@ -83,6 +108,18 @@ func _ready() -> void:
 	
 	_character_reaction.show_emote("appear")
 	_update_pickup_counter()
+	player_model.stepped.connect(_play_step)
+	player_model.blocked.connect(_play_wall_hit)
+	
+	_sfx_level_start.play()
+	
+	for btn in [_btn_pause, _win_restart_btn, _win_next_btn]:
+		btn.pressed.connect(AudioManager.play_click)
+	
+	_music.stream = preload("res://assets/sounds/songs/section-farm-music.mp3")
+	_music.volume_db = -10.0     # quieter so it doesn't overpower SFX
+	_music.play()
+	
 		  
 func run_program(moves: Array) -> void:
 	if _running: return
@@ -115,7 +152,6 @@ func run_program(moves: Array) -> void:
 	# Mark the last step
 	if moves.size() > 0:
 		_mark_step_result(console, state[1], state[0])
-
 	_ui.clear_highlight()
 	console.clear_highlight()
 
@@ -124,9 +160,11 @@ func run_program(moves: Array) -> void:
 		console.add_summary("→ ¡Completado! ✓", Color(0.0, 0.535, 0.0, 1.0))
 		SaveSystem.complete_level(_level_key)
 		_character_reaction.show_emote("boss")
+		_sfx_win.play()  
 		_win_overlay.visible = true
 	else:
 		console.add_summary("→ Error: faltan %d frutas ✗" % pickup_manager.get_remaining(), Color(1.0, 0.152, 0.152, 1.0))
+		_sfx_fail.play()
 		_ui.lock(false)
 
 	_running = false
@@ -141,6 +179,7 @@ func _restart_state() -> void:
 	pickup_manager.setup(level_data["objects"], level_data["solid"])
 	player.setup(player_model)
 	_update_pickup_counter()
+	_sfx_level_restart.play()
 
 func restart_level() -> void:
 	_win_overlay.visible = false
@@ -159,6 +198,7 @@ func _on_next_level() -> void:
 func _on_pickup_collected() -> void:
 	_character_reaction.show_emote("heart")
 	_update_pickup_counter()
+	_sfx_pickup.play()
 
 func _update_pickup_counter() -> void:
 	var collected := pickup_manager.get_collected()
@@ -171,3 +211,15 @@ func _mark_step_result(console: ConsolePanel, index: int, pickup_before: int) ->
 		console.mark_line(index, "→ fruta ✓")
 	else:
 		console.mark_line(index, "")
+
+# ── Sound effects helper methods ────────────────────────────────────────────────────
+
+func _play_step() -> void:
+	_sfx_step.stream = _step_sounds.pick_random()
+	_sfx_step.pitch_scale = randf_range(0.95, 1.05)
+	_sfx_step.play()
+
+func _play_wall_hit() -> void:
+	_sfx_wall_hit.stream = _wall_sounds.pick_random()
+	_sfx_wall_hit.pitch_scale = randf_range(0.95, 1.05)
+	_sfx_wall_hit.play()

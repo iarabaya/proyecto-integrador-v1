@@ -24,7 +24,7 @@ var _expanded := false
 var _expanded_height: float = 0.0
 
 func _ready() -> void:
-	_btn_toggle.pressed.connect(_toggle)
+	_btn_toggle.pressed.connect(func(): AudioManager.play_click(); _toggle())
 	# Store the full height from the editor layout
 	await get_tree().process_frame
 	_expanded_height = size.y
