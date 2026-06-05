@@ -7,6 +7,7 @@ const LEVELS: Array[Dictionary] = [
 	{ "key": "gym",    "title": "Nivel 1 - Gimnasio" },
 	{ "key": "level2", "title": "Nivel 2 - Campo"    },
 	{ "key": "level3", "title": "Nivel 3 - Huerto"   },
+	{ "key": "level4", "title": "Nivel 4 - Jardín"   },
 ]
 
 var _completed: Array[String] = []
